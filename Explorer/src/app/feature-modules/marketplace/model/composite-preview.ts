@@ -8,7 +8,7 @@ export interface CompositePreview {
     name: string;
     description: string;
     ownerId : number;
-    demandignessLevel: string;
+    difficulty: string;
     equipment: Equipment[];
     checkpoints: Checkpoint[];
     totalCount: number;

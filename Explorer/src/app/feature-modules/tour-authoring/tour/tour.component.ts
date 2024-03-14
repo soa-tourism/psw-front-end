@@ -9,6 +9,7 @@ import { TourLocation } from '../../marketplace/model/tour-location.model';
 import { MapService } from 'src/app/shared/map/map.service';
 import { Sale } from '../../marketplace/model/sale.model';
 import { MarketplaceService } from '../../marketplace/marketplace.service';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
 
 @Component({
   selector: 'xp-tour',
@@ -60,6 +61,7 @@ export class TourComponent implements OnInit{
 
   findToursLocation(): void {
     this.tours.forEach(tour => {
+      if(!tour.checkpoints[0]) return
       this.mapService.reverseSearch(tour.checkpoints[0].latitude, tour.checkpoints[0].longitude).subscribe({
         next: (location) => {
           let tourLocation: TourLocation = {
@@ -96,9 +98,9 @@ export class TourComponent implements OnInit{
   }
 
   getTour(): void {
-    this.service.getTour().subscribe({
-      next: (result: Tour[]) => {
-        this.tours = result;
+    this.service.getToursByAuthor(this.user.id).subscribe({
+      next: (result: PagedResults<Tour>) => {
+        this.tours = result.results;
         console.log('Ture: ');
         console.log(this.tours);
         this.tours.forEach(element => {

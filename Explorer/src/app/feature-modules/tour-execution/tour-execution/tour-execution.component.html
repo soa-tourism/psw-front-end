@@ -3,7 +3,7 @@
         <div id="top-div">
             <div class="tour-info">
                 <p class="tour-name">{{tour.name}}</p><br>
-                <label class="tour-info-label">Difficulty: {{tour.demandignessLevel}}</label><br>
+                <label class="tour-info-label">Difficulty: {{tour.difficulty}}</label><br>
                 <div class="hower-expand-container">
                     <div class="hower-expand-content" [ngClass]="{'expanded': isHovered}" (mouseover)="toggleHover(true)" (mouseout)="toggleHover(false)">
                         Description: {{tour.description}}

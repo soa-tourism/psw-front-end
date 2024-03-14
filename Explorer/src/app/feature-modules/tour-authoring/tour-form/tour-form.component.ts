@@ -69,7 +69,7 @@ export class TourFormComponent implements OnChanges,OnInit{
   tourForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     description: new FormControl(''),
-    demandignessLevel:new FormControl('Easy'),
+    difficulty:new FormControl('Easy'),
     price: new FormControl(0) 
   });
 
@@ -77,7 +77,7 @@ export class TourFormComponent implements OnChanges,OnInit{
     const tour: Tour = {
       name: this.tourForm.value.name || "",
       description: this.tourForm.value.description || "",
-      demandignessLevel: this.tourForm.value.demandignessLevel || "",
+      difficulty: this.tourForm.value.difficulty || "",
       price: Number(this.tourForm.value.price) || 0,
       authorId : this.user.id,
       tags : this.tags,
@@ -120,7 +120,7 @@ export class TourFormComponent implements OnChanges,OnInit{
     const tour: Tour = {
       name: this.tourForm.value.name || "",
       description: this.tourForm.value.description || "",
-      demandignessLevel: this.tourForm.value.demandignessLevel || "",
+      difficulty: this.tourForm.value.difficulty || "",
       price: Number(this.tourForm.value.price) || 0,
       authorId : this.user.id,
       tags : this.tour.tags,
