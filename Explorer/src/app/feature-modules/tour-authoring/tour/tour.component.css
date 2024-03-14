@@ -33,15 +33,7 @@ h1{
   margin: 0 auto;
   font-weight: 400;
 }
-.bundle-top{
-    display: flex;
-    margin-top: 10px;
-    margin-right: 10px;
-    margin-left: 10px;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-}
+
 .totalPrice{
     text-align: center;
     font-size: 170%;
@@ -49,34 +41,7 @@ h1{
     margin-right: 20px;
     margin-top: 5px;
 }
-.bundleName{
-    width: 30vh;
-    border-radius: 6px;
-    margin-right: 10px;
-    border: 2px solid #253B34;
-    height: 70%;
-    font-size: 100%;
-    text-align: center;
-}
-.create-bundle-button{
-    border-radius: 10px;
-    border: none;
-    width: 15vh;
-    height: 80%;
-    background-color: #E67840;
-    color: white;
-    font-size: 100%;
-    font-weight: 400;
-    cursor: pointer;
-}
-.bundle-form{
-    display: flex;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    flex-direction: row;
-    justify-content: center;
-    height: 45px;
-}
+
 .tour-container {
     display: flex;
     flex-wrap: wrap;
@@ -117,22 +82,7 @@ h1{
     justify-content: start;
     max-width: 100%;
   }
-  .tour-bundle-container {
-    display: flex;
-    flex-direction: column;
-    width: auto;
-    padding-left: auto;
-    padding-right: auto;
-    right: auto;
-    height: auto;
-    overflow-y: hidden;
-    overflow-x: hidden;
-    border: 2px solid #3B846B;
-    border-radius: 10px;
-    justify-content: start;
-    margin-bottom: 20px;
-    margin-top: 10px;
-  }
+  
   .filtersButton{
     width: auto;
     height: 6vh;
@@ -150,23 +100,7 @@ h1{
     font-size: 120%;
     cursor: pointer;
   }
-  .bundleButton{
-    width: auto;
-    height: 6vh;
-    padding-left: 18px;
-    padding-right: 18px;
-    border-radius: 5px 5px 5px 5px;
-    margin-bottom: 0px;
-    margin-right: 18px;
-    margin-top:auto;
-    margin-bottom: 2px;
-    border: none;
-    background-color: #3B846B;
-    color: white;
-    margin-left: 15px;
-    font-size: 120%;
-    cursor: pointer;
-  }
+
   .filtersDiv{
     background-color: #B6D4AF;
     display: flex;
@@ -487,19 +421,6 @@ td{
     justify-content: left;
     font-size: 2vh;
     font-style: bold;
-}
-
-.addToBundleButton{
-    width: auto;
-    margin-bottom: 15px;
-    padding: 0px 10px;
-    width: 120px;
-    font-size: 100%; 
-    color:#fff;
-    background-color:#E67840;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    border-radius: 100px;
-    cursor: pointer;
 }
 
 div[hidden] {

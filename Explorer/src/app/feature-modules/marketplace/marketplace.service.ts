@@ -19,7 +19,6 @@ import { PurchasedTourPreview } from '../tour-execution/model/purchased_tour_pre
 import { TouristWallet } from './model/tourist-wallet.model';
 import { CompositeForm } from './model/composite-create';
 import { CompositePreview } from './model/composite-preview';
-import { TourBundle } from './model/tour-bundle.model';
 import { Sale } from './model/sale.model';
 import { CreateCoupon } from './model/create-coupon.model';
 import { Coupon } from './model/coupon.model';
@@ -220,14 +219,6 @@ export class MarketplaceService {
 
   getAllCompositeTours():Observable<CompositePreview[]>{
     return this.http.get<CompositePreview[]>(environment.apiHost + 'tourist/compositeTours') 
-  }
-
-  getTourBundles(page: number, pageSize: number): Observable<PagedResults<TourBundle>> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('pageSize', pageSize.toString());
-
-    return this.http.get<PagedResults<TourBundle>>(environment.apiHost + `administration/tour-bundle/published`, { params });
   }
 
   getAllSales(): Observable<PagedResults<Sale>>{

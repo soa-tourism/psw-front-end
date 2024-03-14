@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Tour } from '../model/tour.model';
-import { TourBundle } from '../model/tour-bundle.model';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -18,11 +17,6 @@ import { MarketplaceService } from '../../marketplace/marketplace.service';
 })
 export class TourComponent implements OnInit{
   tours: Tour[] = [];
-  showBundleTours: boolean = false;
-  bundleTotalPrice: number = 0;
-  bundleName: string = '';
-  bundlePrice: number;
-  bundleTours: Tour[] = [];
   selectedTour: Tour;
   shouldRenderTourForm: boolean = false;
   shouldEdit: boolean = false;
@@ -30,7 +24,6 @@ export class TourComponent implements OnInit{
   id:number;
   activeSales: Sale[] = [];
   toursLocation: TourLocation[] = [];
-  creatingBundle: boolean = false;
   
   picture:string="https://conversionfanatics.com/wp-content/themes/seolounge/images/no-image/No-Image-Found-400x264.png";
 
@@ -46,36 +39,7 @@ export class TourComponent implements OnInit{
       this.getTour();
     });
   }
-  AddTourToBundle(tour:Tour):void{
-    if(!this.isTourAlreadyInBundle(tour)){
-      this.bundleTours.push(tour);
-      this.bundleTotalPrice = this.bundleTotalPrice + tour.price;
-    }
-  }
-  DeleteTourFromBundle(tour: Tour): void {
-    if(this.isTourAlreadyInBundle(tour)){
-      this.bundleTours = this.bundleTours.filter(bundleTour => bundleTour.id !== tour.id);
-      this.bundleTotalPrice = this.bundleTotalPrice - tour.price;
-    }
-  }
-  isTourAlreadyInBundle(tour:Tour):boolean{
-    for(let t of this.bundleTours){
-      if(t.id===tour.id)
-        return true;
-    }
-    return false;
-  }
-  finishBundleInformation(){
-    this.showBundleTours = !this.showBundleTours;
-  }
-  onCreatingBundle():void{
-    if(this.creatingBundle){
-      this.bundleTours = [];
-      this.bundleTotalPrice = 0;
-      this.showBundleTours = false;
-    }
-    this.creatingBundle = !this.creatingBundle;
-  }
+ 
   averageGrade(tour: Tour){
     var sum = 0;
     var count = 0;
@@ -164,46 +128,6 @@ export class TourComponent implements OnInit{
   }
   openDetails(t:Tour): void {
     this.router.navigate([`tour-details/${t.id}`]);
-  }
-
-  addToBundle(tour: Tour): void {
-    const tourExists = this.bundleTours.some(existingTour => existingTour.id === tour.id);
-    if (!tourExists) {
-        this.showBundleTours = true;
-        this.bundleTours.push(tour);
-        this.bundleTotalPrice += tour.price;
-    }
-  }
-  
-  createBundle(): void{
-    if(!this.bundleName){
-      alert('Please enter a name for your bundle.');
-      return;
-    }
-    if(this.bundlePrice===0 || !this.bundlePrice){
-      alert('Please enter a positive price for your bundle.');
-      return;
-    }
-    if(this.bundleTours.length<2){
-      alert('You have to offer at least 2 tours in your bundle.');
-      return;
-    }
-    const tourBundle: TourBundle = {
-      name: this.bundleName,
-      price: this.bundlePrice,
-      authorId: this.user.id, 
-      status: 'Draft',
-      tours: this.bundleTours // obrisala punu listu zapamti ovde 
-    };
-
-    this.service.createTourBundle(tourBundle).subscribe({
-      next: (result: TourBundle) => {
-          this.router.navigate([`tour-bundles/${this.user.id}`]);
-
-      },
-      error: (error: any) => {
-      }
-  });
   }
 
   getImageUrl(imageName: string): string {

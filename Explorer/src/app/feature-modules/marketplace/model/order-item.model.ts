@@ -7,5 +7,4 @@ export interface OrderItem{
 
 export enum ItemType {
     Tour = 'Tour',
-    Bundle = 'Bundle',
 }

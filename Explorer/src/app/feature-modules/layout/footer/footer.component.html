@@ -24,9 +24,7 @@
                 <li *ngIf="user?.role === 'tourist' || user?.role === ''"><a href="/tour-overview">Search tours</a></li>
                 <li *ngIf="user?.role === 'tourist' || user?.role === ''"><a href="/my-profile/preference">Tour preferences</a></li>
                 <li *ngIf="user?.role === 'tourist' || user?.role === ''"><a href="/shopping-cart">Shopping cart</a></li>
-                <li *ngIf="user?.role === 'tourist' || user?.role === ''"><a href="/tour-bundles">Bundle offers</a></li>
                 <li *ngIf="user?.role === 'author'"><a href="/my-profile/tour">Tours</a></li>
-                <li *ngIf="user?.role === 'author'"><a href="/tour-statistics">Tour Statistics</a></li>
                 <li *ngIf="user?.role === 'author'"><a href="/my-profile/map-object">Map Objects</a></li>
                 <li *ngIf="user?.role === 'administrator' || user?.role === 'author'"><a href="/my-profile/tour-rating">Tour rating</a></li>
             </ul>

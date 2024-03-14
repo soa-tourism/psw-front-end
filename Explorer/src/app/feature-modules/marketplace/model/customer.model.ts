@@ -1,4 +1,4 @@
-import { TourPurchaseToken } from "./tourPurchaseToken.model";
+import { TourPurchaseToken } from "./tour-purchase-token";
 
 export interface Customer {
     id?: number;
