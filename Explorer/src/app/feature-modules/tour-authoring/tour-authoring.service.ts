@@ -146,7 +146,12 @@ export class TourAuthoringService {
   }
 
   getAvailableEquipment(currentEquipmentIds: number[], tourId: number): Observable<Equipment[]> {
-    return this.http.post<Equipment[]>(environment.apiHost + 'manipulation/equipment/get-available/' + tourId, currentEquipmentIds);
+    let params = new HttpParams();
+    if (currentEquipmentIds.length > 0) {
+      params = params.set('equipmentIds', currentEquipmentIds.join(','));
+    }
+
+    return this.http.get<Equipment[]>(`${environment.apiHost}tours/${tourId}/equipment/available`, { params });
   }
 
   publishTour(tourId: number){
