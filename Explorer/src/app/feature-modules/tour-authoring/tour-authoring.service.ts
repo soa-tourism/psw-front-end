@@ -126,13 +126,12 @@ export class TourAuthoringService {
     return this.http.get<PagedResults<Tour>>(environment.apiHost + 'administration/tours/author/' + id)
   }
 
-  // TODO EQUIPMENT ADD/REMOVE
-  addEquipment(tourId: number, equipmentId: number): Observable<Tour>{
-    return this.http.put<Tour>(environment.apiHost + 'administration/tours/add/' + tourId + '/' + equipmentId, null);
+  addEquipment(tourId: number, equipmentId: number): Observable<Tour> {
+    return this.http.post<Tour>(`${environment.apiHost}administration/tours/${tourId}/equipment/${equipmentId}`, null);
   }
 
   removeEquipment(tourId: number, equipmentId: number): Observable<Tour> {
-    return this.http.put<Tour>(environment.apiHost + 'administration/tours/remove/' + tourId + '/' + equipmentId, null);
+    return this.http.delete<Tour>(`${environment.apiHost}administration/tours/${tourId}/equipment/${equipmentId}`);
   }
 
   getAvailableEquipment(currentEquipmentIds: number[], tourId: number): Observable<Equipment[]> {
@@ -142,7 +141,6 @@ export class TourAuthoringService {
     }
     return this.http.get<Equipment[]>(`${environment.apiHost}tours/${tourId}/equipment/available`, { params });
   }
-  // ---------------------------------------------------------
 
 
   // TODO TOUR OVERVIEW FOR AUTHOR
