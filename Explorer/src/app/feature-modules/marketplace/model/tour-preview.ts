@@ -7,7 +7,7 @@ export interface TourPreview {
     id?: number;
     name: string;
     description: string;
-    demandignessLevel: string;
+    difficulty: string;
     price: number;
     tags: string[];
     authorId : number;

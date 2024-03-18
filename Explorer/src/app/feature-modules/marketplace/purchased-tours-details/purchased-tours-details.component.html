@@ -17,7 +17,7 @@
             </div>
             <div class="detail-row">
                 <div class="detail-label">Difficulty Level:</div>
-                <div class="detail-value" [style.color]="getDemandColor(tour.demandignessLevel)">{{ tour.demandignessLevel }}</div>
+                <div class="detail-value" [style.color]="getDemandColor(tour.difficulty)">{{ tour.difficulty }}</div>
             </div>
         </div>
         <div class="tour-details" *ngIf="tour.equipment && tour.equipment.length > 0">

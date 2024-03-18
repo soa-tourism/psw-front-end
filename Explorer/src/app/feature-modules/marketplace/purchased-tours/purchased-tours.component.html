@@ -7,7 +7,7 @@
             <div class="image-container">
                 <label class="originalprice"> 💰{{tour.price}} AC </label>
                 <label class="difficulty">
-                    🏔️ Difficulty: <span [style.color]="getDemandColor(tour.demandignessLevel)" style="font-weight: 600;">{{tour.demandignessLevel}}</span>
+                    🏔️ Difficulty: <span [style.color]="getDemandColor(tour.difficulty)" style="font-weight: 600;">{{tour.difficulty}}</span>
                 </label>                  
                 <img *ngIf="tour.checkpoints[0].pictures && tour.checkpoints[0].pictures.length > 0" [src]="getImageUrl(tour.checkpoints[0].pictures[0])" alt="Image1" class="tour-card-img">
                 

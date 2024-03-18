@@ -9,7 +9,7 @@ export interface PurchasedTourPreview{
     id: number,
     name: string,
     description: string,
-    demandignessLevel: string,
+    difficulty: string,
     price: number,
     tags: string[],
     equipment: Equipment[],

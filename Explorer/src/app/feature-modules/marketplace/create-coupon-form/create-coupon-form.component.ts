@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
 import { Router } from "@angular/router";
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
 
 
 @Component({
@@ -36,8 +37,8 @@ export class CreateCouponFormComponent implements OnInit{
     }
 
     getTours(): void {
-      this.tourAuthoringService.getTour().subscribe((result: Tour[]) => {
-        this.tours = result;
+      this.tourAuthoringService.getToursByAuthor(this.user.id).subscribe((result: PagedResults<Tour>) => {
+        this.tours = result.results;
       });
     }
 

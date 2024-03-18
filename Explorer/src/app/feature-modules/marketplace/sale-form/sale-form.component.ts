@@ -72,10 +72,10 @@ import { TourAuthoringService } from "../../tour-authoring/tour-authoring.servic
                                 }
                                 if (this.sale.id !== undefined) {
                                     //ovo je dodato novo
-                                    this.tourAuthoringService.getTour().subscribe(
+                                    this.tourAuthoringService.getToursByAuthor(this.user.id).subscribe(
                                         (result) => {
                                             const numberOfToursBefore = this.tours.length;
-                                            const newTours = result.filter(newTour => !this.tours.some(existingTour => existingTour.id === newTour.id && existingTour.status === 'Published'));
+                                            const newTours = result.results.filter(newTour => !this.tours.some(existingTour => existingTour.id === newTour.id && existingTour.status === 'Published'));
                                             this.tours = this.tours.concat(newTours);
                                             console.log('nove ture koje treba dodati ako zeli uz stare: ', this.tours)
                                             const numberOfNewTours = this.tours.length - numberOfToursBefore;
@@ -111,9 +111,9 @@ import { TourAuthoringService } from "../../tour-authoring/tour-authoring.servic
                         }  */
                     } 
                     if (this.sale.id !== undefined && this.sale.toursIds.length == 0) {
-                        this.tourAuthoringService.getTour().subscribe(
+                        this.tourAuthoringService.getToursByAuthor(this.user.id).subscribe(
                             (result) => {
-                                this.tours = result.filter(tour => tour.status === 'Published')
+                                this.tours = result.results.filter(tour => tour.status === 'Published')
                                 this.initializeButtonStates();
                             }, 
                             (error) => {
@@ -127,9 +127,9 @@ import { TourAuthoringService } from "../../tour-authoring/tour-authoring.servic
             else {
                 this.shouldEdit = false;
 
-                this.tourAuthoringService.getTour().subscribe(
+                this.tourAuthoringService.getToursByAuthor(this.user.id).subscribe(
                     (result) => {
-                        this.tours = result.filter(tour => tour.status === 'Published')
+                        this.tours = result.results.filter(tour => tour.status === 'Published')
                         this.initializeButtonStates();
                     }, 
                     (error) => {

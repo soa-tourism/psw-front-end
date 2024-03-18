@@ -32,21 +32,26 @@ export class TourEquipmentComponent implements OnInit {
   showButtonText: string = 'Show equipment';
   showAvailableButtonText: string = 'Show available equipment';
 
-
   getTour(id: number): void {
     this.service.get(id).subscribe((result: Tour) => {
       this.tour = result;
-      // Once this.tour is defined, you can safely access its equipment
-      this.currentEquipmentIds = this.tour.equipment.map(e => e.id as number);
-  
-      // Now, call the method that depends on this.tour and its equipment
-      this.getAvailableEquipment(this.currentEquipmentIds);
+      console.log(this.tour);
+      if (this.tour && this.tour.equipment !== undefined) {
+        if (this.tour.equipment) {
+          this.currentEquipmentIds = this.tour.equipment.map(e => e.id as number);
+        } else {
+          this.currentEquipmentIds = [];
+        }
+        this.getAvailableEquipment(this.currentEquipmentIds);
+      } else {
+        console.error('Tour data is missing or incomplete.');
+      }
     });
   }
 
 
   getAvailableEquipment(currentEquipmentIds: number[]): void{
-    if(this.tour.id !== undefined){
+    if (this.tour.id !== undefined) {      
       this.service.getAvailableEquipment(currentEquipmentIds, this.tour.id).subscribe((result: Equipment[]) => {
         this.availableEquipment = result;
       })
@@ -54,10 +59,13 @@ export class TourEquipmentComponent implements OnInit {
   }
 
   removeEquipment(tourId?: number, equipmentId?: number): void {
-    if(tourId !== undefined && equipmentId !== undefined){
+    if (tourId !== undefined && equipmentId !== undefined) {
       this.service.removeEquipment(tourId, equipmentId).subscribe({
-        next: (result: Tour) => {
-          this.tour = result;
+        next: () => {
+          const index = this.tour.equipment.findIndex(e => e.id === equipmentId);
+          if (index !== -1) {
+            this.tour.equipment.splice(index, 1);
+          }
           this.currentEquipmentIds = this.tour.equipment.map(e => e.id as number);
           this.getAvailableEquipment(this.currentEquipmentIds);
         },
@@ -68,12 +76,16 @@ export class TourEquipmentComponent implements OnInit {
   }
 
   addEquipment(tourId?: number, equipmentId?: number): void {
-    if(tourId !== undefined && equipmentId !== undefined){
+    if (tourId !== undefined && equipmentId !== undefined) {
       this.service.addEquipment(tourId, equipmentId).subscribe({
-        next: (result: Tour) => {
-          this.tour = result;
-          this.currentEquipmentIds = this.tour.equipment.map(e => e.id as number);
-          this.getAvailableEquipment(this.currentEquipmentIds);
+        next: () => {
+          const index = this.availableEquipment.findIndex(e => e.id === equipmentId);
+          if (index !== -1) {
+            const addedEquipment = this.availableEquipment.splice(index, 1)[0];
+            this.currentEquipmentIds.push(equipmentId);
+            this.tour.equipment.push(addedEquipment);
+            this.getAvailableEquipment(this.currentEquipmentIds);
+          }
         },
         error: () => {
         }

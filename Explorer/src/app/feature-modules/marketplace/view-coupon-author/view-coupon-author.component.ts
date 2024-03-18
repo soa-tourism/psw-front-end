@@ -6,6 +6,7 @@ import { Coupon } from '../model/coupon.model';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { Router } from "@angular/router";
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
 
 @Component({
   selector: 'xp-view-coupon-author',
@@ -47,9 +48,11 @@ export class ViewCouponAuthorComponent implements OnInit{
   }
 
   getTours(): void {
-    this.tourAuthoringService.getTour().subscribe((result: Tour[]) => {
-      this.tours = result;
-    });
+    if (this.user) {
+      this.tourAuthoringService.getToursByAuthor(this.user.id).subscribe((result: PagedResults<Tour>) => {
+        this.tours = result.results;
+      });
+    }
   }
 
   deleteCoupons(couponId: number): void {
