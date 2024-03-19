@@ -171,8 +171,4 @@ export class TourAuthoringService {
     queryParams = queryParams.append("pageSize", 0);
     return this.http.get<PagedResults<PublicCheckpoint>>(environment.apiHost + 'administration/publicCheckpoint/atPlace/'+longitude+'/'+latitude);
   }
-
-  getToursWithPublicCheckpoints(checkpoints: PublicCheckpoint[]): Observable<PublicTour[]>{
-    return this.http.post<PublicTour[]>(environment.apiHost+'tourist/publicTours/byChekpoints', checkpoints);
-  }
 }
