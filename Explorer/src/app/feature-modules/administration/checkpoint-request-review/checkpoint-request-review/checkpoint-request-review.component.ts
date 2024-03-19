@@ -37,6 +37,7 @@ export class CheckpointRequestReviewComponent implements OnInit{
 
 
   ngOnInit(): void {
+    this.getAllEncounterRequests();
     this.getAllCheckpointsRequests();
   }
 
@@ -76,27 +77,6 @@ export class CheckpointRequestReviewComponent implements OnInit{
   });
   }
 
-  /*
-  getAllRequests(): void {
-    const checkpointRequests$ = this.adminService.getAllCheckpointRequests();
-    const objectRequests$ = this.adminService.getAllObjectRequests();
-    const encounterRequests$ = this.encounterService.getAllRequests();
-  
-    forkJoin([checkpointRequests$, objectRequests$, encounterRequests$]).subscribe({
-      next: ([checkpointRequests, objectRequests, encounterRequest]) => {
-        this.allCheckpointRequests = checkpointRequests;
-        this.allObjectRequests = objectRequests;
-        this.allEncounterRequests = encounterRequest;
-        this.getAllCheckpoints();
-        this.getAllObjects();
-        this.getAllEncounters();
-      },
-      error: () => {
-        // Handle errors
-      }
-    });
-  }
-  */
   getAllEncounters(): void {
     this.encounterService.getEncounters().subscribe({
         next: (objects: PagedResults<Encounter>) => {
@@ -286,7 +266,6 @@ export class CheckpointRequestReviewComponent implements OnInit{
         this.getAllCheckpointsRequests();
     },
       error: () => {
-        // Handle errors
     }
     })
   }
@@ -307,7 +286,6 @@ export class CheckpointRequestReviewComponent implements OnInit{
         this.getAllCheckpointsRequests();
     },
       error: () => {
-        // Handle errors
     }
     })
   }
