@@ -11,4 +11,8 @@ export class ImageService {
   getImageUrl(imageName: string): string {
     return `${environment.wwwRoot}/images/${imageName}`;
   }
+
+  getToursImageUrl(imageName: string): string {
+    return `${environment.tours}/images/${imageName}`;
+  }
 }

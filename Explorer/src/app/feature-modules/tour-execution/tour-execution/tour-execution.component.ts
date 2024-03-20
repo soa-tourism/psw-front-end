@@ -1,5 +1,4 @@
 import { Component, OnInit, AfterViewInit, Input, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { TourPreview } from '../../marketplace/model/tour-preview';
 import { TourExecution } from '../model/tour_execution.model';
 import { Injectable } from '@angular/core';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';

@@ -24,10 +24,6 @@
                     <button (click)="changeTitle('Reported issues')" [routerLink]="['reported-issues']">Reported issues</button>
                     <div class="horizontal-divider"></div>
                 </div>
-                <div class="sidenav-item"> 
-                    <button (click)="changeTitle('Tour rating')" [routerLink]="['tour-rating']">Tour Rating</button> 
-                    <div class="horizontal-divider"></div>
-                </div>
             </div>
             
             <!-- TOURIST AND AUTHOR -->
@@ -45,6 +41,10 @@
                     <button (click)="changeTitle('My reported issues')" [routerLink]="['reported-issues']">My Reported issues</button>
                     <div class="horizontal-divider"></div>
                 </div>
+                <div class="sidenav-item">
+                    <button (click)="changeTitle('Tour rating')" [routerLink]="['tour-rating']">Tour Rating</button>
+                    <div class="horizontal-divider"></div>
+                </div>
             </div>
             
             <!-- TOURIST only -->
@@ -52,22 +52,6 @@
                 <div class="sidenav-item"> 
                     <!-- Trip history  -->
                     <button (click)="changeTitle('My purchased tours')" [routerLink]="['purchased-tours']">My Purchased Tours</button>
-                    <div class="horizontal-divider"></div>
-                </div>
-                <div class="sidenav-item"> 
-                    <button (click)="changeTitle('Private tours')" [routerLink]="['private-tours']">Private tours</button>
-                    <div class="horizontal-divider"></div>
-                </div>
-                <div class="sidenav-item"> 
-                    <button (click)="changeTitle('Private tour blogs')" [routerLink]="['private-tour-blogs']">Private tour blogs</button>
-                    <div class="horizontal-divider"></div>
-                </div>
-                <div class="sidenav-item"> 
-                    <button (click)="changeTitle('My campaigns')" [routerLink]="['composite-list']">My Campaigns</button>
-                    <div class="horizontal-divider"></div>
-                </div>
-                <div class="sidenav-item"> 
-                    <button (click)="changeTitle('Clubs')" [routerLink]="['club']">Clubs</button>
                     <div class="horizontal-divider"></div>
                 </div>
                 <div class="sidenav-item"> 
@@ -84,10 +68,6 @@
                 </div>
                 <div class="sidenav-item">
                     <button (click)="changeTitle('Manage map objects')" [routerLink]="['map-object']">Manage Map Objects</button>
-                    <div class="horizontal-divider"></div>
-                </div>
-                <div class="sidenav-item"> 
-                    <button (click)="changeTitle('Tour rating')"  [routerLink]="['tour-rating']">Tour Rating</button> 
                     <div class="horizontal-divider"></div>
                 </div>
             </div>

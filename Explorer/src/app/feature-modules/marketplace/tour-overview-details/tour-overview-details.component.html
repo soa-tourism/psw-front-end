@@ -3,12 +3,13 @@
         <div class="map">
             <xp-map></xp-map>
         </div>
-        
+        <!-- TODO uncomment checkpoints -->
+<!--         
         <div class="first-checkpoint">
-            <p class="checkpoint-title">Starting checkpoint: {{tour.checkpoint.name}}</p>
+            <p class="checkpoint-title">Starting checkpoint: {{tour.checkpoints[0].name}}</p>
             <hr class="hr-checkpoint">
-            <label>{{tour.checkpoint.description}}</label>
-        </div>
+            <label>{{tour.checkpoints[0].description}}</label>
+        </div> -->
     </div>
     <div class="tour-details">
         <div class="tour-description">
@@ -29,7 +30,7 @@
                 </tr>
                 <tr>
                     <th>Price:</th>
-                    <td><span *ngIf="isTourOnSale" class="old-price"><s>{{tour.price}} 💰</s> </span><span class="price">{{tour.salePrice}} 💰</span></td>
+                    <td><span>{{tour.price}} 💰</span></td>
                 </tr>
                 <tr>
                     <th>Difficulty:</th>
@@ -54,6 +55,7 @@
                             <th>Description</th>
                         </thead>
                         
+                        <!--TODO fix bug not shown  -->
                         <tbody>
                             <tr *ngFor="let e of tour.equipment">
                                 <td>{{e.name}}</td>
@@ -72,11 +74,11 @@
         </div>
 
         <div class="checkpoint-image-container">
-            <img class="checkpoint-image" *ngIf="tour && tour.checkpoint && tour.checkpoint.pictures && tour.checkpoint.pictures.length > 0" [src]="getImageUrl(tour.checkpoint.pictures[0])">
+            <img class="checkpoint-image" *ngIf="tour && tour.checkpoints && tour.checkpoints[0].pictures && tour.checkpoints[0].pictures.length > 0" [src]="getImageUrl(tour.checkpoints[0].pictures[0])">
             <p *ngIf="tour.tourRating.length > 0" class="subtitle" style="margin-bottom: 6px;">Ratings</p>
             <div *ngIf="tour.tourRating.length > 0" class="ratings">
                 <div *ngFor="let e of tour.tourRating" class="rating-item">
-                    <label class="rating-date-label">({{ e.creationDate | date:'dd/MM/yyyy' }})</label>
+                    <label class="rating-date-label">({{ e.reviewDate | date:'dd/MM/yyyy' }})</label>
                     <div>
                         <strong>Comment:</strong> {{ e.comment }}
                     </div>
@@ -98,7 +100,6 @@
                 </div>
             </div>
             <p style="font-size: 22px;">Average Rating: {{ tourAvarageRating | number:'1.2-2' }}</p>
-            <button *ngIf="canSeeRecommendedTours()" class="button shop" (click)="seeRecommendedTours()">See recommended tours</button>
         </div>
     </div>
 </div>

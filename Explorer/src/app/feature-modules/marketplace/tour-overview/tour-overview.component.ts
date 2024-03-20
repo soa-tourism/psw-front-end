@@ -1,17 +1,13 @@
 import { Component,OnInit, ViewChild } from '@angular/core';
-import { Tour } from '../../tour-authoring/model/tour.model';
 import { MarketplaceService } from '../marketplace.service';
 import { Router } from '@angular/router';
-import { TourPreview } from '../model/tour-preview';
 import { MapComponent } from 'src/app/shared/map/map.component';
-import { PagedResults } from 'src/app/shared/model/paged-results.model';
-import { PublicTour } from '../model/public-tour.model';
+import { PublishedTour } from '../model/published-tour.model';
 import { MapObject } from '../../tour-authoring/model/map-object.model';
 import { PublicCheckpoint } from '../../tour-execution/model/public_checkpoint.model';
 import { AfterViewInit } from '@angular/core';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
-import { Sale } from '../model/sale.model';
 import { TourLocation } from '../model/tour-location.model';
 import { MapService } from 'src/app/shared/map/map.service';
 import { ImageService } from 'src/app/shared/image/image.service';
@@ -31,12 +27,12 @@ export class TourOverviewComponent implements OnInit, AfterViewInit{
     if(this.publicCheckpoints.length > 0)
     this.addPublicCheckpoinsOnMap();
   }
-  publishedTours:TourPreview[]=[];
+  publishedTours:PublishedTour[]=[];
    //search:
-  publicTours: PublicTour[] = [];
-  foundTours: TourPreview[] = [];
-  searchTours: TourPreview[] = [];
-  backupSearchTours: TourPreview[] = []; /////////////////
+  publicTours: PublishedTour[] = [];
+  foundTours: PublishedTour[] = [];
+  searchTours: PublishedTour[] = [];
+  backupSearchTours: PublishedTour[] = []; /////////////////
   selectedLongitude: number;
   selectedLatitude: number;
   radius: number = 500; // Inicijalna vrednost precnika (scroller)
@@ -48,8 +44,6 @@ export class TourOverviewComponent implements OnInit, AfterViewInit{
   sortOrder: 'asc' | 'desc' = 'asc';
   toursLocation: TourLocation[] = [];
   visibleFilters: boolean = false;
-  recommendedTours: TourPreview[] = [];  /////////////////
-  activeTours: TourPreview[] = []; /////////////////
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -70,17 +64,13 @@ export class TourOverviewComponent implements OnInit, AfterViewInit{
       this.addPublicCheckpoinsOnMap();
     });
 
-    this.service.getPublishedTours().subscribe((tours: TourPreview[]) => {
-      this.service.getActiveSales().subscribe((activeSales: Sale[]) => {
-        this.publishedTours = this.mapDiscountedPricesToTours(tours, activeSales);
-        this.searchTours = this.publishedTours;
-        this.backupSearchTours = this.publishedTours; ////////////////
-        this.findToursLocation();
-        this.getPublicTours();
-      });
+    this.service.getPublishedTours().subscribe((tours: PublishedTour[]) => {
+      this.publishedTours = tours;
+      this.searchTours = this.publishedTours;
+      this.findToursLocation();
     });
   }
-  averageGrade(tour: TourPreview){
+  averageGrade(tour: PublishedTour){
     var sum = 0;
     var count = 0;
     for(let g of tour.tourRating){
@@ -94,54 +84,7 @@ export class TourOverviewComponent implements OnInit, AfterViewInit{
     const tourLocation = this.toursLocation.find(location => location.tourid === tourid);
     return tourLocation?.adress || "";
   }
-  mapDiscountedPricesToTours(tours: TourPreview[], activeSales: Sale[]): TourPreview[] {
-    return tours.map(tour => {
-      const matchingSale = activeSales.find(sale => sale.toursIds.includes(tour.id!));
-      const discountedPrice = this.calculateDiscountedPrice(tour, activeSales);
-      const isOnSale = this.isOnSale(tour.id!, activeSales);
-      const saleExpiration = matchingSale?.end;
 
-      return { 
-        ...tour,
-        discount: matchingSale ? matchingSale.discount : 0,
-        salePrice: discountedPrice,
-        isOnSale: isOnSale,
-        saleExpiration: saleExpiration,
-        isLastMinute: this.isLastMinute(saleExpiration)
-      };
-    });
-  }
-
-  isLastMinute(saleExpiration?: Date) {
-    var today = new Date();
-    var futureDate = new Date(today.setDate(today.getDate() + 4));
-    today = new Date()
-      if (saleExpiration) {
-        var saleExpirationDate = new Date(saleExpiration);
-          if (saleExpirationDate < futureDate && saleExpirationDate > today) {
-              return true;
-          } else {
-              return false;
-          }
-      } else {
-          return false;
-      }
-  }
-
-  calculateDiscountedPrice(tour: TourPreview, activeSales: Sale[]): number {
-    const activeSale = activeSales.find(sale => sale.toursIds.includes(tour.id!));
-    if (activeSale) {
-      const discountPercentage = activeSale.discount;
-      const discountedPrice = tour.price * (1 - discountPercentage / 100);
-      return discountedPrice;
-    } else {
-      return tour.price;
-    }
-  }
-
-  isOnSale(tourId: number, activeSales: Sale[]): boolean {
-    return activeSales.some(sale => sale.toursIds.includes(tourId));
-  }
   scrollToFilters(){
     this.searchTours = this.backupSearchTours;/////////////
     this.visibleFilters = true;
@@ -157,50 +100,7 @@ export class TourOverviewComponent implements OnInit, AfterViewInit{
     }, 300);
   }
 
-  recommendedFilters(){
-    this.searchTours = this.recommendedTours;
-    this.cancelSearchRecommended(); /////////////////
-  }
-
-  activeFilters(){
-    this.searchTours = this.activeTours;
-    this.cancelSearchRecommended(); /////////////////
-  }
-
-  filterTours() {
-    if (this.showOnlyOnSale) {
-      this.searchTours = this.searchTours.filter(tour => tour.isOnSale);
-      this.sortToursBySale();
-    }
-  }
-
-  toggleSortOrder() {
-    this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
-    this.filterTours();
-  }
-
-  sortToursBySale() {
-    this.searchTours.sort((a, b) => {
-      const discountA = a.discount;
-      const discountB = b.discount;
-
-      if (this.sortOrder === 'asc') {
-        return discountA - discountB;
-      } else {
-        return discountB - discountA;
-      }
-    });
-  }
-
-  getPublicTours():void{
-    this.service.getPublicTours().subscribe(
-      (response:any)=>{
-        this.publicTours = response;
-      }
-    )
-  }
-
-  openDetails(tour:TourPreview):void{
+  openDetails(tour: PublishedTour):void{
     this.router.navigate([`tour-overview-details/${tour.id}`]);
   }
 
@@ -251,9 +151,6 @@ export class TourOverviewComponent implements OnInit, AfterViewInit{
       this.searchTours = [];
       this.searchTours = this.foundTours;
       this.foundTours = [];
-      if(this.showOnlyOnSale){
-        this.filterTours();
-      }
     }, 2000);
 
     Promise.all(promises).then(() => {
@@ -269,7 +166,7 @@ export class TourOverviewComponent implements OnInit, AfterViewInit{
       
   }
 
-  checkDistance(tour: PublicTour): Promise<void> {
+  checkDistance(tour: PublishedTour): Promise<void> {
     console.log(tour);
     const originCoords: { lat: number; lon: number } = {
       lat: this.selectedLatitude,
@@ -278,7 +175,7 @@ export class TourOverviewComponent implements OnInit, AfterViewInit{
   
     let found = false;
   
-    const promises = tour.previewCheckpoints.map(checkpoint => {
+    const promises = tour.checkpoints.map(checkpoint => {
       const destinationCoords: { lat: number; lon: number } = {
         lat: checkpoint.latitude,
         lon: checkpoint.longitude
@@ -313,14 +210,12 @@ export class TourOverviewComponent implements OnInit, AfterViewInit{
   
 
 
-  findTourById(id: number): TourPreview | undefined{
+  findTourById(id: number): PublishedTour | undefined{
     return this.publishedTours.find(t => t.id === id);
   }
   applyFilters(){
     if(this.selectedLatitude && this.selectedLongitude)
       this.findNearTours();
-    else if(this.showOnlyOnSale)
-      this.filterTours();
     setTimeout(() => {
       console.log("test")
       console.log(this.searchTours);
@@ -336,10 +231,10 @@ export class TourOverviewComponent implements OnInit, AfterViewInit{
     
   }
 
-  drowTour(tour: PublicTour): void{
-    let coords: [{lat: number, lon: number}] = [{lat: tour.previewCheckpoints[0].latitude, lon: tour.previewCheckpoints[0].longitude}];
-    tour.previewCheckpoints.forEach(e => {
-        if(e != tour.previewCheckpoints[0])
+  drowTour(tour: PublishedTour): void{
+    let coords: [{ lat: number, lon: number }] = [{ lat: tour.checkpoints[0].latitude, lon: tour.checkpoints[0].longitude}];
+    tour.checkpoints.forEach(e => {
+        if(e != tour.checkpoints[0])
           coords.push({lat:e.latitude, lon:e.longitude});
     });
     this.mapComponent.setRoute(coords, 'walking'); //proveriti za profil, izmena?
@@ -372,27 +267,9 @@ export class TourOverviewComponent implements OnInit, AfterViewInit{
     this.mapComponent.reloadMap();
   }
 
-  cancelSearchRecommended():void { /////////////////////////
-    const filtersElement = document.getElementById('title');
-    this.selectedLatitude = 0;
-    this.selectedLongitude = 0;
-      if (filtersElement) {
-        filtersElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-      this.showOnlyOnSale = false;
-      this.radius = 100;
-    setTimeout(() => {
-      this.visibleFilters = false;
-    }, 600);
-    this.mapComponent.reloadMap();
-  }
-
   findToursLocation(): void {
     this.searchTours.forEach(tour => {
-      this.mapService.reverseSearch(tour.checkpoint.latitude, tour.checkpoint.longitude).subscribe({
+      this.mapService.reverseSearch(tour.checkpoints[0].latitude, tour.checkpoints[0].longitude).subscribe({
         next: (location) => {
           let tourLocation: TourLocation = {
             tourid: 0,

@@ -90,7 +90,7 @@ export class TourRatingFormComponent implements OnChanges, OnInit {
       comment: this.tourRatingForm.value.comment || "",
       touristId: this.user.id,
       tourId: this.tourId,
-      tourDate: new Date(), // sta je tourDate proveri
+      tourDate: new Date(),
       reviewDate: currentDateTime
     };
     return rating;
@@ -116,7 +116,6 @@ export class TourRatingFormComponent implements OnChanges, OnInit {
     }
   }
 
-  // image upload
   getImageUrl(imageName: string): string {
     return this.imageService.getImageUrl(imageName);
   }
@@ -133,7 +132,7 @@ export class TourRatingFormComponent implements OnChanges, OnInit {
         };
         reader.readAsDataURL(selectedFiles[i]);
       }
+      this.tourRatingForm.get('images')?.setValue(selectedFiles);
     }
-    this.tourRatingForm.get('images')?.setValue(selectedFiles);
   }
 }

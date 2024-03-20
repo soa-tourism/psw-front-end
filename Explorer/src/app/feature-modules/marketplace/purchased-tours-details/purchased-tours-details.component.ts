@@ -1,5 +1,4 @@
 import { Component,OnInit ,ViewChild} from '@angular/core';
-import { TourPreview } from '../model/tour-preview';
 import { MarketplaceService } from '../marketplace.service';
 import { ActivatedRoute } from '@angular/router';
 import { MapComponent } from 'src/app/shared/map/map.component';
@@ -7,7 +6,6 @@ import { Router } from '@angular/router';
 import { CheckpointPreview } from '../model/checkpoint-preview';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
-import { Tour } from '../../tour-authoring/model/tour.model';
 import { PurchasedTourPreview } from '../../tour-execution/model/purchased_tour_preview.model';
 import { ImageService } from 'src/app/shared/image/image.service';
 

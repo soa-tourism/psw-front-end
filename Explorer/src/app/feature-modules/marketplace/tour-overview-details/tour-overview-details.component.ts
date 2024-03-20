@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TourPreview } from '../model/tour-preview';
 import { MarketplaceService } from '../marketplace.service';
 import { ActivatedRoute } from '@angular/router';
 import { MapComponent } from 'src/app/shared/map/map.component';
@@ -10,9 +9,9 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { ShoppingCart } from '../model/shopping-cart.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { TourRating } from '../model/tour-rating.model';
-import { Sale } from '../model/sale.model';
 import { PurchasedTourPreview } from '../../tour-execution/model/purchased_tour_preview.model';
 import { ImageService } from 'src/app/shared/image/image.service';
+import { PublishedTour } from '../model/published-tour.model';
 
 @Component({
   selector: 'xp-tour-overview-details',
@@ -22,7 +21,7 @@ import { ImageService } from 'src/app/shared/image/image.service';
 export class TourOverviewDetailsComponent implements OnInit {
   @ViewChild(MapComponent) mapComponent: MapComponent;
 
-  tour: TourPreview;
+  tour: PublishedTour;
   tourID: number;
   checkpoints: CheckpointPreview;
   profiles: string[] = ['walking', 'cycling', 'driving'];
@@ -36,7 +35,7 @@ export class TourOverviewDetailsComponent implements OnInit {
   buttonColor: string = 'orange';
   cartItemCount: number;
   location: string;
-  tours: TourPreview[] = [];
+  tours: PublishedTour[] = [];
   isTourOnSale: boolean = false;
   purchasedTours: PurchasedTourPreview[] = [];
 
@@ -92,42 +91,6 @@ export class TourOverviewDetailsComponent implements OnInit {
     }
 
     this.tours[0] = this.tour;
-
-    this.service.getActiveSales().subscribe((activeSales: Sale[]) => {
-      this.tours = this.mapDiscountedPricesToTours(this.tours, activeSales);
-    });
-  }
-
-  mapDiscountedPricesToTours(tours: TourPreview[], activeSales: Sale[]): TourPreview[] {
-    return tours.map(tour => {
-      const matchingSale = activeSales.find(sale => sale.toursIds.includes(tour.id!));
-      const discountedPrice = this.calculateDiscountedPrice(tour, activeSales);
-      const isOnSale = this.isOnSale(tour.id!, activeSales);
-
-      this.tour.salePrice = discountedPrice;
-      this.isTourOnSale = isOnSale;
-      return { 
-        ...tour,
-        discount: matchingSale ? matchingSale.discount : 0,
-        salePrice: discountedPrice,
-        isOnSale: isOnSale
-      };
-    });
-  }
-
-  calculateDiscountedPrice(tour: TourPreview, activeSales: Sale[]): number {
-    const activeSale = activeSales.find(sale => sale.toursIds.includes(tour.id!));
-    if (activeSale) {
-      const discountPercentage = activeSale.discount;
-      const discountedPrice = tour.price * (1 - discountPercentage / 100);
-      return discountedPrice;
-    } else {
-      return tour.price;
-    }
-  }
-
-  isOnSale(tourId: number, activeSales: Sale[]): boolean {
-    return activeSales.some(sale => sale.toursIds.includes(tourId));
   }
 
   searchByCoord(lat: number, lon: number) {
@@ -148,9 +111,9 @@ export class TourOverviewDetailsComponent implements OnInit {
   }
 
   getPublishedTour(id: number): void {
-    this.service.getPublishedTour(id).subscribe((result: TourPreview) => {
+    this.service.getPublishedTour(id).subscribe((result: PublishedTour) => {
       this.tour = result;
-      this.checkpoints = this.tour.checkpoint;
+      this.checkpoints = this.tour.checkpoints[0];
       if (this.checkpoints != null) {
         this.route();
       }
@@ -161,7 +124,7 @@ export class TourOverviewDetailsComponent implements OnInit {
     this.router.navigate([`tour-overview`]);
   }
 
-  onAddToCart(t: TourPreview): void {
+  onAddToCart(t: PublishedTour): void {
     const isConfirmed = window.confirm('Are you sure you want to add this item to the cart?');
     if (isConfirmed) {
       const orderItem: OrderItem = {
@@ -186,7 +149,7 @@ export class TourOverviewDetailsComponent implements OnInit {
     });
   }
 
-  rateTour(tour: TourPreview): void {
+  rateTour(tour: PublishedTour): void {
     this.router.navigate(['/tour-rating-form', tour.id]);
   }
 
@@ -235,20 +198,5 @@ export class TourOverviewDetailsComponent implements OnInit {
   
   getImageUrl(imageName: string): string {
     return this.imageService.getImageUrl(imageName);
-  }
-
-  canSeeRecommendedTours(): boolean {
-    if (!this.user || !this.tour) {
-      return false; 
-    }
-    const userId = this.user.id;
-    const hasRatingWithUserId = this.tour.tourRating.some(rating => rating.touristId === userId);
-    return hasRatingWithUserId;
-  }
-  
-  
-
-  seeRecommendedTours(): void{ 
-    this.router.navigate(['/tour-recommendation/' +  this.tour.id]);
   }
 }

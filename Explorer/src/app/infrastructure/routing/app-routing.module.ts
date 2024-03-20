@@ -43,13 +43,8 @@ import { CheckpointSecretFormComponent } from 'src/app/feature-modules/tour-auth
 import { TourExecutionComponent } from 'src/app/feature-modules/tour-execution/tour-execution/tour-execution.component';
 import { NotificationsComponent } from 'src/app/feature-modules/administration/notifications/notifications.component';
 import { EncounterFormComponent } from 'src/app/feature-modules/encounters/encounter-form/encounter-form.component';
-import { SaleComponent } from 'src/app/feature-modules/marketplace/sale/sale.component';
-import { SaleFormComponent } from 'src/app/feature-modules/marketplace/sale-form/sale-form.component';
-import { CreateCouponFormComponent } from 'src/app/feature-modules/marketplace/create-coupon-form/create-coupon-form.component';
-import { ViewCouponAuthorComponent } from 'src/app/feature-modules/marketplace/view-coupon-author/view-coupon-author.component';
 import { TouristEncounterFormComponent } from 'src/app/feature-modules/encounters/tourist-encounter-form/tourist-encounter-form.component'; 
 import { EncounterRequestComponent } from 'src/app/feature-modules/encounters/encounter-request/encounter-request.component';
-import { TourRecommendationsComponent } from 'src/app/feature-modules/tour-execution/tour-recommendations/tour-recommendations.component';
 import { TouristCurrentPositionComponent } from 'src/app/feature-modules/tourist-current-position/tourist-current-position.component';
 import { ResetPasswordComponent } from '../auth/reset-password/reset-password/reset-password.component';
 import { VerificationSuccessComponent } from '../auth/verification-success/verification-success.component';
@@ -84,13 +79,13 @@ const routes: Routes = [
       { path: 'club-members/:id', component: ClubMembersComponent, canActivate: [AuthGuard]},
       { path: 'preference', component: PreferenceComponent, canActivate:[AuthGuard]},
       { path: 'reporting-issues', component: ReportingIssueComponent, canActivate: [AuthGuard],},
+      { path: 'purchased-tours', component: PurchasedToursComponent, canActivate: [AuthGuard] },
+      { path: 'purchased-tours-details/:id', component: PurchasedToursDetailsComponent, canActivate: [AuthGuard] },
       
       //AUTHOR only
       { path: 'tour', component: TourComponent,canActivate:[AuthGuard] },
       { path: 'checkpoint/:id', component: CheckpointComponent, canActivate: [AuthGuard] },
       { path: 'map-object', component: MapObjectComponent, canActivate: [AuthGuard] },
-      { path: 'sales-form/:id', component: SaleFormComponent, canActivate: [AuthGuard],},
-      { path: 'sales', component: SaleComponent, canActivate: [AuthGuard], },
 
       //ALL USERS
       { path: 'reported-issues', component: ReportedIssuesComponent, canActivate: [AuthGuard] },
@@ -138,13 +133,8 @@ const routes: Routes = [
   {path: 'encounter-form/:id',component:EncounterFormComponent,canActivate:[AuthGuard]},
   {path: 'tour-execution/:tourId', component: TourExecutionComponent, canActivate: [AuthGuard]},
   {path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard],},
-  {path: 'sales', component: SaleComponent, canActivate: [AuthGuard],},
-  {path: 'sales-form/:id', component: SaleFormComponent, canActivate: [AuthGuard],},
-  {path: 'create-coupon', component: CreateCouponFormComponent, canActivate: [AuthGuard]},
-  {path: 'view-coupons', component: ViewCouponAuthorComponent, canActivate: [AuthGuard]},
   {path: 'tourist-encounter-form', component: TouristEncounterFormComponent, canActivate: [AuthGuard],},
   {path: 'encounter-request', component: EncounterRequestComponent, canActivate: [AuthGuard]},
-  {path: 'tour-recommendation/:id', component: TourRecommendationsComponent, canActivate: [AuthGuard]},
   {path: 'current-location',component:TouristCurrentPositionComponent,canActivate:[AuthGuard]},
   {path: 'reset-password', component: ResetPasswordComponent, canActivate: [AuthGuard]},
   {path: 'verification-success', component: VerificationSuccessComponent}

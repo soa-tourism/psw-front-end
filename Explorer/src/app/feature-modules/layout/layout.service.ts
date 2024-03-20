@@ -7,10 +7,7 @@ import { of } from 'rxjs';
 import { ProfileInfo } from './model/profileInfo.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TokenStorage } from 'src/app/infrastructure/auth/jwt/token.service';
-import { Tour } from '../tour-authoring/model/tour.model';
-import { TourPreview } from '../marketplace/model/tour-preview';
 import { BlogPost } from '../blog/model/blog-post.model';
-import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Tourist } from './model/tourist.model';
 
 
@@ -91,15 +88,6 @@ export class LayoutService {
       const url = `${this.apiUrl2}&lat=${latitude}&lon=${longitude}`;
 
       return this.http.get(url);
-  }
-
-  getAllTours():  Observable<PagedResults<TourPreview>>{
-      return this.http.get<PagedResults<TourPreview>>('https://localhost:44333/api/langing-page/get-all-tours-preview');
-  }
-    
-
-  getTopRatedTours(count:number): Observable<TourPreview[]> {
-    return this.http.get<TourPreview[]>(environment.apiHost + 'langing-page/top-rated-tours/' + count);
   }
 
   getTopRatedBlogs(count: number): Observable<BlogPost[]>{

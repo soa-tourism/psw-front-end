@@ -5,7 +5,7 @@ export interface TourRating {
     touristId: number;
     tourId: number;
     tourDate: Date
-    creationDate: Date;
+    reviewDate: Date;
     imageNames?: string[];
     images?: FileList;
 }

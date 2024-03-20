@@ -1,14 +1,13 @@
 import { Component, OnInit, Input, ViewChild, ElementRef} from '@angular/core';
-import { TourPreview } from '../../marketplace/model/tour-preview';
 import { LocationResponse } from 'src/app/shared/model/location-response';
 import { LayoutService } from '../layout.service';
 import { MarketplaceService } from '../../marketplace/marketplace.service';
 import { Observable, catchError, forkJoin, map, throwError } from 'rxjs';
-import { TourRating } from '../../marketplace/model/tour-rating.model';
 import { TourLocation } from '../../marketplace/model/tour-location.model';
 import { MapComponent } from 'src/app/shared/map/map.component';
 import { MapService } from 'src/app/shared/map/map.service';
 import { ImageService } from 'src/app/shared/image/image.service';
+import { PublishedTour } from '../../marketplace/model/published-tour.model';
 
 @Component({
   selector: 'xp-home',
@@ -21,28 +20,19 @@ export class HomeComponent implements OnInit{
   
   @ViewChild(MapComponent) mapComponent: MapComponent;
 
-  foundTours: TourPreview[];
+  foundTours: PublishedTour[];
   searchLocation: string = "";
   locationResponse : LocationResponse; 
-  allTours: TourPreview[];
+  allTours: PublishedTour[];
   searchButtonClicked: boolean = false;
   i:number=0;
 
   constructor(private layoutService: LayoutService, private marketPlaceService: MarketplaceService, private mapService: MapService, private imageService: ImageService) { }
   
   ngOnInit(): void {
-    this.layoutService.getAllTours().subscribe({
-      next: (result: any) => {
-        this.allTours = result;
-        console.log(this.allTours);
-      },
-      error: () => {
-        console.log('Nije ucitao sve ture');
-      }
-    });
   }
 
-  averageGrade(tour: TourPreview){
+  averageGrade(tour: PublishedTour){
     var sum = 0;
     var count = 0;
     for(let g of tour.tourRating){
@@ -90,7 +80,7 @@ export class HomeComponent implements OnInit{
   this.scroll();
 
   const observables = this.allTours.map(tour =>
-    this.getPlaceInfo(tour.checkpoint.latitude, tour.checkpoint.longitude)
+    this.getPlaceInfo(tour.checkpoints[0].latitude, tour.checkpoints[0].longitude)
   );
 
   forkJoin(observables).subscribe(names => {
@@ -169,7 +159,7 @@ toursLocation: TourLocation[] = [];
 
 findToursLocation(): void {
   this.foundTours.forEach(tour => {
-    this.mapService.reverseSearch(tour.checkpoint.latitude, tour.checkpoint.longitude).subscribe({
+    this.mapService.reverseSearch(tour.checkpoints[0].latitude, tour.checkpoints[0].longitude).subscribe({
       next: (location) => {
         let tourLocation: TourLocation = {
           tourid: 0,

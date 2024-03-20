@@ -12,9 +12,7 @@ import { CheckpointSecret } from './model/checkpointSecret.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { PublicCheckpoint } from '../tour-execution/model/public_checkpoint.model';
-import { PublicTour } from '../marketplace/model/public-tour.model';
-import { PrivateTour } from './model/private-tour.model';
-import { CheckpointStatistics } from './model/checkpoint-statistics.model';
+import { PublishedTour } from '../marketplace/model/published-tour.model';
 
 
 @Injectable({

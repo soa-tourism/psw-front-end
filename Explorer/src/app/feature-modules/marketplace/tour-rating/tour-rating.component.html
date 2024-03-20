@@ -5,7 +5,7 @@
             <thead>
                 <tr>
                     <th>Tour Id</th>
-                    <th>Tour Date</th>
+                    <!-- <th>Tour Date</th> -->
                     <th>Tourist Id</th>
                     <th>Rate</th>
                     <th>Comment</th>
@@ -16,25 +16,17 @@
             <tbody>
                 <tr *ngFor="let rate of ratings">
                     <td>{{rate.tourId}}</td>
-                    <td>{{rate.tourDate | date: 'dd.MM.yyyy HH:mm'}}</td>
+                    <!-- <td>{{rate.tourDate | date: 'dd.MM.yyyy HH:mm'}}</td> -->
                     <td>{{rate.touristId}}</td>
                     <td>{{rate.rating}}</td>
                     <td class="rating-comments">{{rate.comment}}</td>
-                    <td>{{rate.creationDate | date: 'dd.MM.yyyy HH:mm'}}</td>
+                    <td>{{rate.reviewDate | date: 'dd.MM.yyyy HH:mm'}}</td>
                     <td>
                         <div class="image-container">
                             <img *ngFor="let imageName of rate.imageNames" [src]="getImageUrl(imageName)" alt="Image">
                         </div>
                     </td>
-                    <td>
-                        <button *ngIf="shouldDelete" color="accent" (click)="deleteTourRating(rate.id || 0)" mat-icon-button>
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </td>
                 </tr>
-                <tr><button *ngIf="shouldAdd" color="primary" (click)="onAddClicked()" mat-icon-button>
-                    <mat-icon>add</mat-icon>
-                </button></tr>
             </tbody>
         </table>
     </div>

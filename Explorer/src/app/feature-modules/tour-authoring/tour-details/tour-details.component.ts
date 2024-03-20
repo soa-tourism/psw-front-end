@@ -208,12 +208,4 @@ export class TourDetailsComponent implements OnInit{
   getImageUrl(imageName: string): string {
     return this.imageService.getImageUrl(imageName);
   }
-
-  goToTourStatistics(): void{
-    this.router.navigate([`tour-checkpoint-statistics/${this.tourID}`]);
-  }
-  
-  goTourStatistics(): void{
-    this.router.navigate(['tour-statistics']);
-  }
 }

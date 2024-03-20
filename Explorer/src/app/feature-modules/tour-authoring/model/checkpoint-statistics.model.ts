@@ -1,4 +1,4 @@
-export interface CheckpointStatistics{
+export interface heckpointStatistics{
     checkpointId : number,
     checkpointName: string,
     arrivalPercentage: number, 

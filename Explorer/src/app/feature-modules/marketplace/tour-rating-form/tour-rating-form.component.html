@@ -21,15 +21,16 @@
                 </mat-form-field>
 
                 <!-- image upload  -->
-                <div class="image-div">
-                    <input type="file" (change)="onImageSelected($event)" id="fileInput" multiple />
-                    <div class="image-container" *ngIf="!shouldEdit && imagePreview && imagePreview.length > 0">                        
-                        <img *ngFor="let image of imagePreview" [src]="image" alt="Image">                    
-                    </div>
-                    <div class="image-container" *ngIf="shouldEdit && rating.imageNames && rating.imageNames.length > 0">
-                        <img *ngFor="let imageName of rating.imageNames" [src]="getImageUrl(imageName)" alt="Image">
-                    </div>
-                </div>
+            <input type="file" (change)="onImageSelected($event)" class="file-input" multiple #fileUpload />
+            <div class="file-upload">
+                <button mat-flat-button class="upload-btn" (click)="fileUpload.click()">
+                    <mat-icon>insert_photo</mat-icon>
+                    <span>Upload images</span>
+                </button>
+            </div>
+            <div class="image-container" *ngIf="imagePreview && imagePreview.length > 0">
+                <img *ngFor="let image of imagePreview" [src]="image" alt="Image" style="max-width: 200px; max-height: 200px;">
+            </div>
             <button *ngIf="!shouldEdit" color="primary" type="submit" (click)="addTourRating()" mat-raised-button>Done</button>
         </div>
     </form>

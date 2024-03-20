@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { ImageService } from 'src/app/shared/image/image.service';
 import { TourLocation } from '../../marketplace/model/tour-location.model';
 import { MapService } from 'src/app/shared/map/map.service';
-import { Sale } from '../../marketplace/model/sale.model';
 import { MarketplaceService } from '../../marketplace/marketplace.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 
@@ -23,7 +22,6 @@ export class TourComponent implements OnInit{
   shouldEdit: boolean = false;
   user: User;
   id:number;
-  activeSales: Sale[] = [];
   toursLocation: TourLocation[] = [];
   
   picture:string="https://conversionfanatics.com/wp-content/themes/seolounge/images/no-image/No-Image-Found-400x264.png";
@@ -34,9 +32,6 @@ export class TourComponent implements OnInit{
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
       this.user = user;
-    });
-    this.marketPlaceService.getAuthorsActiveSales().subscribe((result: Sale[]) => {
-      this.activeSales = result;
       this.getTour();
     });
   }
@@ -134,47 +129,5 @@ export class TourComponent implements OnInit{
 
   getImageUrl(imageName: string): string {
     return this.imageService.getImageUrl(imageName);
-  }
-
-  isLastMinute(tourId: number) {
-    const matchingSale = this.activeSales.find(sale => sale.toursIds.includes(tourId!));
-    var saleExpiration = matchingSale?.end;
-    var today = new Date();
-    var futureDate = new Date(today.setDate(today.getDate() + 4));
-    today = new Date()
-      if (saleExpiration) {
-        var saleExpirationDate = new Date(saleExpiration);
-          if (saleExpirationDate < futureDate && saleExpirationDate > today) {
-              return true;
-          } else {
-              return false;
-          }
-      } else {
-          return false;
-      }
-  }
-
-  DiscountedPrice(tourid: number, tourPrice: number): number {
-    const activeSale = this.activeSales.find(sale => sale.toursIds.includes(tourid!));
-    if (activeSale) {
-      const discountPercentage = activeSale.discount;
-      const discountedPrice = tourPrice * (1 - discountPercentage / 100);
-      return discountedPrice;
-    } else {
-      return tourPrice;
-    }
-  }
-
-  Discount(tourid: number): number {
-    const activeSale = this.activeSales.find(sale => sale.toursIds.includes(tourid!));
-    if (activeSale) {
-      return activeSale.discount;
-    } else {
-      return 0;
-    }
-  }
-
-  isOnSale(tourId: number): boolean {
-    return this.activeSales.some(sale => sale.toursIds.includes(tourId));
   }
 }

@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { MarketplaceService } from '../marketplace.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
-import { Router } from '@angular/router';
 import { OrderItem } from '../model/order-item.model';
 import { ShoppingCart } from '../model/shopping-cart.model';
 import { Injectable } from '@angular/core';
 import { TouristWallet } from '../model/tourist-wallet.model';
-import { Coupon } from '../model/coupon.model';
 import { ImageService } from 'src/app/shared/image/image.service';
+import { Coupon } from '../model/coupon.model';
 
 @Injectable({
   providedIn: 'root',

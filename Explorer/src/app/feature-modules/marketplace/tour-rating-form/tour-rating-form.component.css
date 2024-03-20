@@ -109,3 +109,12 @@ p {
 .image-div{
     margin-bottom: 30px;
 }
+
+.file-input {
+    display: none;
+}
+
+.upload-btn {
+    background-color: #3B846B;
+    color: white
+}

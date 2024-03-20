@@ -1,19 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpParams} from '@angular/common/http';
-import { TourPreview } from '../marketplace/model/tour-preview';
 import { Observable } from 'rxjs';
 import { environment } from 'src/env/environment';
 import { TourExecution } from './model/tour_execution.model';
-import { query } from '@angular/animations';
 import { TouristPosition } from './model/position.model';
 import { MapObject } from '../tour-authoring/model/map-object.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { PublicCheckpoint } from './model/public_checkpoint.model';
-import { Encounter } from '../encounters/model/encounter.model';
 import { EncounterExecution } from '../encounters/model/encounterExecution.model';
-import { PrivateTourExecution } from '../tour-authoring/model/private-tour-execution.model';
-import { PrivateTour } from '../tour-authoring/model/private-tour.model';
 
 @Injectable({
   providedIn: 'root'
@@ -37,23 +32,6 @@ export class TourExecutionService {
 
   deleteTouristPosition(id: number): Observable<TouristPosition> {
     return this.http.delete<TouristPosition>(environment.apiHost + 'tourism/position/' + id);
-  }
-
-  // PrivateTour
-  getPrivateTour(id: number): Observable<PrivateTour> {
-    return this.http.get<PrivateTour>(environment.apiHost + 'tourist/privateTours/tour/' + id);
-  }
-
-  nextCheckpoint(tour: PrivateTour): Observable<PrivateTour>{
-    return this.http.put<PrivateTour>(environment.apiHost + 'tourist/privateTours/next-checkpoint', tour);
-  }
-
-  start(tour: PrivateTour): Observable<PrivateTour>{
-    return this.http.put<PrivateTour>(environment.apiHost + 'tourist/privateTours/start', tour);
-  }
-
-  finish(tour: PrivateTour): Observable<PrivateTour>{
-    return this.http.put<PrivateTour>(environment.apiHost + 'tourist/privateTours/finish', tour);
   }
 
   // TourExecution
@@ -134,13 +112,5 @@ export class TourExecutionService {
     queryParams = queryParams.append("page", 0);
     queryParams = queryParams.append("pageSize", 0);
     return this.http.get<EncounterExecution[]>(environment.apiHost + 'tourist/encounter-execution/get-all-completed', {params: queryParams});
-  }
-
-  getRecommendedTours(tourId: number): Observable<TourPreview[]>{
-    return this.http.get<TourPreview[]>(environment.apiHost + 'tour-execution/get-suggested-tours/' + tourId);
-  }
-
-  sendRecommendedToursToMail(tourId: number): Observable<PagedResults<TourPreview>>{
-    return this.http.get<PagedResults<TourPreview>>(environment.apiHost + 'tour-execution/send-tours-to-mail/' + tourId);
   }
 }

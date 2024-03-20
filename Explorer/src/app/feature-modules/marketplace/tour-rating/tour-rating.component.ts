@@ -33,17 +33,12 @@ export class TourRatingComponent  implements OnInit {
 
   showElements(user: User): void{
     switch (user.role) {
-      case 'administrator': {
-        this.shouldDelete = true;
-        this.shouldAdd = false;
-        break;
-      }
       case 'author': {
         this.shouldDelete = false;
         this.shouldAdd = false;
         break;
       }
-      default:{ // tourist
+      case 'tourist':{
         this.shouldDelete = false;
         this.shouldAdd = true;
         break;
@@ -51,16 +46,8 @@ export class TourRatingComponent  implements OnInit {
     }
   }
 
-  deleteTourRating(id: number): void {
-    this.service.deleteTourRating(id).subscribe({
-      next: () => {
-        this.getTourRating();
-      },
-    })
-  }
-
   getTourRating(): void {
-    this.service.getTourRating(this.user.role).subscribe({
+    this.service.getTourRating(this.user).subscribe({
       next: (result: PagedResults<TourRating>) => {
         this.ratings = result.results;
         },
@@ -69,11 +56,7 @@ export class TourRatingComponent  implements OnInit {
       })
   }
 
-  onAddClicked(): void {
-    this.shouldRenderTourRatingForm = true;
-  }
-
   getImageUrl(imageName: string): string {
-    return this.imageService.getImageUrl(imageName);
+    return this.imageService.getToursImageUrl(imageName);
   }
 }
