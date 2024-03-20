@@ -50,6 +50,7 @@ export class CheckpointComponent implements OnInit{
           this.tourTimes = this.tour.tourTimes;
           this.fillProfiles();
           this.ngAfterViewInit();
+          console.log(this.tour)
        });
      });
    }
@@ -168,8 +169,8 @@ export class CheckpointComponent implements OnInit{
       for(let c of this.checkpoints)
         sum += c.requiredTimeInSeconds || 0;
 
-      for(let t of this.tour.tourTimes)
-        sum += t.timeInSeconds;
+      // for(let t of this.tour.tourTimes)
+      //   sum += t.timeInSeconds;
       return sum + (this.time || 0);
     }
 
