@@ -1,12 +1,16 @@
+import { Encounter } from "./encounter.model";
+
 export enum Status {
-    OnHold = 0,
-    Accepted = 1,
-    Rejected = 2
+    OnHold = "OnHold",
+    Accepted = "accepted",
+    Rejected = "rejected"
 }
 
 export interface EncounterRequest {
+onHold: any;
     id: number,
     encounterId: number,
     touristId: number,
-    status: Status
+    status: Status,
+    encounterDto?: Encounter
 }

@@ -23,7 +23,7 @@ export class EncounterRequestComponent {
   requestDetails: { id: number, encounterName: string, encounterXp: number,encounterLongitude: number,encounterLatitude: number, touristName: string, status: Status, onHold:boolean}[] = [];
   allEncounters: PagedResults<Encounter>;
   allUsers: PagedResults<User>;
-  allEncounterRequests: PagedResults<EncounterRequest>;
+  allEncounterRequests: EncounterRequest[];
 
   constructor(private encounterService: EncounterService) { }
 
@@ -33,7 +33,7 @@ export class EncounterRequestComponent {
 
   getAllRequests(): void {
     this.encounterService.getAllRequests().subscribe({
-        next: (requests: PagedResults<EncounterRequest>) => {
+        next: (requests: EncounterRequest[]) => {
             this.allEncounterRequests = requests;
             this.getAllObjects();
         },
@@ -74,7 +74,7 @@ export class EncounterRequestComponent {
   }
 
   fillRequestDetails(): void {
-    this.allEncounterRequests.results.forEach(request => {
+    this.allEncounterRequests.forEach(request => {
       this.allEncounters.results.forEach(encounter => {
         this.allUsers.results.forEach(user => {
           if(request.touristId === user.id && request.encounterId === encounter.id) {

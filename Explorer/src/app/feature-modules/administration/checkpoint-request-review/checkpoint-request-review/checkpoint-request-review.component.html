@@ -1,5 +1,5 @@
 <div id="checkpoint-request-review">
-    <h1>Checkpoint requests review</h1>
+    <!-- <h1>Checkpoint requests review</h1>
     <div class="checkpoint-request-review-details">
         <table>
             <thead>
@@ -64,7 +64,7 @@
                 </tr>
             </tbody> 
         </table>
-    </div>
+    </div> -->
     <h1>Encounter requests review</h1>
     <div class="object-request-review-details">
         <table>
@@ -80,14 +80,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let req of encounterRequestDetails">
-                    <td>{{req.encounterName}}</td>
-                    <td>{{req.encounterXp}}</td>
-                    <td>{{req.encounterLongitude}}</td>
-                    <td>{{req.encounterLatitude}}</td>
-                    <td>{{req.touristName}}</td>
-                    <td *ngIf="!req.onHold">{{req.status}}</td>
-                    <td *ngIf="req.onHold">
+                <tr *ngFor="let req of allEncounterRequests">
+                    <td>{{req.encounterDto?.name}}</td>
+                    <td>{{req.encounterDto?.xp}}</td>
+                    <td>{{req.encounterDto?.longitude}}</td>
+                    <td>{{req.encounterDto?.latitude}}</td>
+                    <td>{{req.touristId}}</td>
+                    <td *ngIf="req.status!==Status.OnHold">{{req.status}}</td>
+                    <td *ngIf="req.status==Status.OnHold">
                         <button mat-icon-button class="cancel-button" (click)="rejectEncounterRequest(req)">
                             <mat-icon>cancel</mat-icon>
                         </button>

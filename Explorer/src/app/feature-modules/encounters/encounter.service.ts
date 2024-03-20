@@ -43,8 +43,8 @@ export class EncounterService {
     return this.http.delete<Encounter>(environment.apiHost + 'administration/encounter/'+checkpointId);
   }
 
-  getAllRequests(): Observable<PagedResults<EncounterRequest>> {
-    return this.http.get<PagedResults<EncounterRequest>>(environment.apiHost + 'administration/encounterRequests');
+  getAllRequests(): Observable<EncounterRequest[]> {
+    return this.http.get<EncounterRequest[]>(environment.apiHost + 'administration/encounterRequests');
   }
 
   acceptRequest(requestId: number): Observable<EncounterRequest> {
