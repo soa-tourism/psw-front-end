@@ -40,6 +40,7 @@ export class CheckpointRequestReviewComponent implements OnInit{
   ngOnInit(): void {
     this.getAllEncounterRequests();
     //this.getAllCheckpointsRequests();
+    //this.getAllCheckpointsRequests();
   }
 
   // getAllCheckpointsRequests(): void {

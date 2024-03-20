@@ -14,13 +14,13 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tr *ngFor="let tt of tour.tourTimes">
+                    <!-- <tr *ngFor="let tt of tour.tourTimes">
                         <td *ngIf="tt.transportation=='driving'">🚗  {{tt.transportation}}</td>
                         <td *ngIf="tt.transportation=='cycling'">🚲  {{tt.transportation}}</td>
                         <td *ngIf="tt.transportation=='walking'">🚶‍♂️  {{tt.transportation}}</td>
                         <td>{{(tt.distance/1000).toFixed(2)}} km</td>
                         <td>{{(tt.timeInSeconds/3600).toFixed(0)}} h {{((tt.timeInSeconds%3600)/60).toFixed(0)}} min </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td>
                             <label><b>Total tour duration:</b></label>

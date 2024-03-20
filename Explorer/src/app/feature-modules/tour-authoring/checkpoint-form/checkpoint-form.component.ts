@@ -98,7 +98,7 @@ export class CheckpointFormComponent implements OnChanges, OnInit{
     address: new FormControl(''),
     hours: new FormControl(0),
     minutes: new FormControl(0),
-    status: new FormControl('Private', [Validators.required]),
+    status: new FormControl('Private'),
     publicCP: new FormControl(''),
     pictures: new FormControl('')
   });
