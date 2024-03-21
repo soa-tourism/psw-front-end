@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MarketplaceService } from '../marketplace.service';
 import { TourRating } from '../model/tour-rating.model';
-import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { ImageService } from 'src/app/shared/image/image.service';
@@ -47,8 +46,8 @@ export class TourRatingComponent  implements OnInit {
   }
 
   getTourRating(): void {
-    this.service.getTourRating(this.user).subscribe({
-      next: (result: PagedResults<TourRating>) => {
+    this.service.getTourReviewsByUser(this.user).subscribe({
+      next: (result) => {
         this.ratings = result.results;
         },
         error: () => {

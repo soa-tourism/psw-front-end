@@ -17,7 +17,6 @@ import { PurchasedToursComponent } from './purchased-tours/purchased-tours.compo
 import { TourOverviewComponent } from './tour-overview/tour-overview.component';
 import { TourOverviewDetailsComponent } from './tour-overview-details/tour-overview-details.component';
 import { PurchasedToursDetailsComponent } from './purchased-tours-details/purchased-tours-details.component';
-import { TourRatingEditFormComponent } from './tour-rating-edit-form/tour-rating-edit-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ForecastPopupComponent } from './forecast-popup/forecast-popup.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -37,7 +36,6 @@ import { MatSelectModule } from '@angular/material/select';
         TourOverviewComponent,
         TourOverviewDetailsComponent,
         PurchasedToursDetailsComponent,
-        TourRatingEditFormComponent,
         ForecastPopupComponent,
     ],
     exports: [

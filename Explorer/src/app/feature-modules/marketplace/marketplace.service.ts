@@ -15,8 +15,6 @@ import { MapObject } from '../tour-authoring/model/map-object.model';
 import { PublicCheckpoint } from '../tour-execution/model/public_checkpoint.model';
 import { PurchasedTourPreview } from '../tour-execution/model/purchased_tour_preview.model';
 import { TouristWallet } from './model/tourist-wallet.model';
-import { CompositeForm } from './model/composite-create';
-import { CompositePreview } from './model/composite-preview';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Coupon } from './model/coupon.model';
 
@@ -53,7 +51,7 @@ export class MarketplaceService {
     return this.http.delete<TourPreference>(environment.apiHost + 'tourism/preference/' + id);
   }
 
-  getTourRating(user: User): Observable<PagedResults<TourRating>> {
+  getTourReviewsByUser(user: User): Observable<PagedResults<TourRating>> {
     let url: string;
     let params = new HttpParams();
 
@@ -61,24 +59,24 @@ export class MarketplaceService {
       case 'author':
         url = 'author/tours/reviews';
         params = params.set('authorId', user.id.toString());
-        break;
+        return this.http.get<PagedResults<TourRating>>(environment.apiHost + url, { params });
       case 'tourist':
-        url = 'tourist/tours/reviews';
-        params = params.set('touristId', user.id.toString());
-        break;
+       return this.getTourReviews(user.id, "tourist")
       default:
         throw new Error('Invalid user type');
     }
 
-    return this.http.get<PagedResults<TourRating>>(environment.apiHost + url, { params });
   }
 
-  addTourRating(ratingForm: FormData): Observable<TourRating> {
-    return this.http.post<TourRating>(environment.apiHost + 'tourist/tours/reviews', ratingForm);
+  addTourRating(ratingForm: FormData): Observable<PagedResults<TourRating>> {
+    return this.http.post<PagedResults<TourRating>>(environment.apiHost + 'tourist/tours/reviews', ratingForm);
   }
 
-  updateTourRating(rating: TourRating): Observable<TourRating> {
-    return this.http.put<TourRating>(environment.apiHost + 'tourist/tours/reviews/' + rating.id, rating);
+  getTourReviews(id: number, type: string): Observable<PagedResults<TourRating>> {
+    const params = new HttpParams()
+      .set('id', id.toString())
+      .set('type', type);
+    return this.http.get<PagedResults<TourRating>>(environment.apiHost + 'tourist/tours/reviews', { params });
   }
 
   addTouristPosition(position: TouristPosition): Observable<TouristPosition> {
@@ -131,7 +129,6 @@ export class MarketplaceService {
     return this.http.get<PurchasedTourPreview>(environment.apiHost + 'shopping/purchased-tours/details/' + tourId)
   }
   
-  // TODO
   getPublishedTours():Observable<PublishedTour[]> {
     return this.http.get<PublishedTour[]>(environment.apiHost + 'tourist/published-tours')
   }
@@ -147,19 +144,12 @@ export class MarketplaceService {
     this.cartItemCountSubject.next(count);
   }
 
-  getPublicTours(): Observable<PublishedTour[]>{
-    return this.http.get<PublishedTour[]>(environment.apiHost + 'tourist/published-tours') 
-  }
   startExecution(tourId: number, touristId: number): Observable<TourExecution>{
     return this.http.post<TourExecution>(environment.apiHost + 'tour-execution/' + touristId, tourId);
   }
 
   getAverageRating(id:number): Observable<number> {
-    return this.http.get<number>(environment.apiHost + 'tourist/shopping/averageRating/' + id)
-  }
-
-  getRating(id:number): Observable<TourRating> {
-    return this.http.get<TourRating>(environment.apiHost + 'tourist/tours/review/' + id)
+    return this.http.get<number>(environment.apiHost + 'tourist/published-tours/average/' + id)
   }
 
   getMapObjects(): Observable<PagedResults<MapObject>>{

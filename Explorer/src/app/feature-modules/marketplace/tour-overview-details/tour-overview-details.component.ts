@@ -57,22 +57,13 @@ export class TourOverviewDetailsComponent implements OnInit {
         this.tourID = params['id'];
         this.getPublishedTour(this.tourID);
         this.findShoppingCart();
+        this.getTourDetails();
       });
 
       this.service.getTouristsPurchasedTours(this.user.id).subscribe((purchasedTours) => {
         this.isTourInCart = this.isTourPurchased(purchasedTours);
         this.buttonColor = this.isTourInCart ? 'gray' : 'orange';
       });
-
-      this.service.getAverageRating(this.tourID).subscribe(
-        (averageRating: number) => {
-          this.tourAvarageRating = averageRating;
-          console.log('Prosečna ocena ture:', this.tourAvarageRating);
-        },
-        (error) => {
-          console.error('Greška prilikom dobavljanja prosečne ocene ture:', error);
-        }
-      );
     });
   }
 
@@ -113,12 +104,34 @@ export class TourOverviewDetailsComponent implements OnInit {
   getPublishedTour(id: number): void {
     this.service.getPublishedTour(id).subscribe((result: PublishedTour) => {
       this.tour = result;
+      console.log(this.tour);
       this.checkpoints = this.tour.checkpoints[0];
       if (this.checkpoints != null) {
         this.route();
       }
     });
   }
+
+  getTourDetails(): void {
+    this.service.getAverageRating(this.tourID).subscribe(
+      (average: number) => {
+        this.tour.avgRating = average;
+        this.service.getTourReviews(this.tourID, "tour").subscribe(
+          (reviews) => {
+            this.tour.tourRating = reviews.results;
+          },
+          (error) => {
+            console.error('Error fetching reviews for tour', this.tourID, ':', error);
+          }
+        );
+      },
+      (error) => {
+        console.error('Error fetching average rating for tour', this.tourID, ':', error);
+        this.tour.avgRating = 0;
+      }
+    );
+  }
+
 
   onBack(): void {
     this.router.navigate([`tour-overview`]);
@@ -151,14 +164,6 @@ export class TourOverviewDetailsComponent implements OnInit {
 
   rateTour(tour: PublishedTour): void {
     this.router.navigate(['/tour-rating-form', tour.id]);
-  }
-
-  isTouristRating(rating: TourRating): boolean {
-    return rating.touristId === this.user.id;
-  }
-
-  editRating(rating: TourRating): void {
-    this.router.navigate(['/tour-rating-edit-form', rating.id]);
   }
 
   checkIsTourInCart(): boolean {

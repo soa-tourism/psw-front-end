@@ -1,4 +1,5 @@
-import { Component,OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs'; 
 import { MarketplaceService } from '../marketplace.service';
 import { Router } from '@angular/router';
 import { MapComponent } from 'src/app/shared/map/map.component';
@@ -66,19 +67,24 @@ export class TourOverviewComponent implements OnInit, AfterViewInit{
 
     this.service.getPublishedTours().subscribe((tours: PublishedTour[]) => {
       this.publishedTours = tours;
+      this.publishedTours.forEach(tour => {
+        this.service.getAverageRating(tour.id!).subscribe(
+          (average: number) => {
+            tour.avgRating = average;
+          },
+          (error) => {
+            console.error('Error fetching average rating for tour', tour.id, ':', error);
+            tour.avgRating = 0; 
+          }
+        );
+      });
+
       this.searchTours = this.publishedTours;
       this.findToursLocation();
     });
   }
-  averageGrade(tour: PublishedTour){
-    var sum = 0;
-    var count = 0;
-    for(let g of tour.tourRating){
-      sum += g.rating;
-      count ++;
-    }
-    return parseFloat((sum/count).toFixed(1)).toFixed(1);
-  }
+
+
 
   getTourLocation(tourid: number): string{
     const tourLocation = this.toursLocation.find(location => location.tourid === tourid);

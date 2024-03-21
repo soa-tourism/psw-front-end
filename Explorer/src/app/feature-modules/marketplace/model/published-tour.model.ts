@@ -15,4 +15,5 @@ export interface PublishedTour{
     checkpoints: CheckpointPreview[];
     tourRating: TourRating[];
     tourTime: TourTime[];
+    avgRating: number;
 }
