@@ -23,6 +23,7 @@ export class TourRatingFormComponent implements OnChanges, OnInit {
   user: User;
   imagePreview: string[] = [];
   tourId: number;
+  authorId: number;
 
   constructor(private service: MarketplaceService, private authService: AuthService,
     private imageService: ImageService, 
@@ -89,8 +90,8 @@ export class TourRatingFormComponent implements OnChanges, OnInit {
       comment: this.tourRatingForm.value.comment || "",
       touristId: this.user.id,
       tourId: this.tourId,
-      tourDate: new Date(), // sta je tourDate proveri
-      creationDate: currentDateTime
+      tourDate: new Date(),
+      reviewDate: currentDateTime
     };
     return rating;
   }
@@ -101,7 +102,7 @@ export class TourRatingFormComponent implements OnChanges, OnInit {
     formData.append('touristId', rating.touristId!.toString());
     formData.append('tourId', rating.tourId!.toString());
     formData.append('tourDate', rating.tourDate.toISOString());
-    formData.append('creationDate', rating.creationDate.toISOString());
+    formData.append('reviewDate', rating.reviewDate.toISOString());
   }
   
   private fillImages(formData: FormData) {
@@ -115,7 +116,6 @@ export class TourRatingFormComponent implements OnChanges, OnInit {
     }
   }
 
-  // image upload
   getImageUrl(imageName: string): string {
     return this.imageService.getImageUrl(imageName);
   }
@@ -132,12 +132,7 @@ export class TourRatingFormComponent implements OnChanges, OnInit {
         };
         reader.readAsDataURL(selectedFiles[i]);
       }
+      this.tourRatingForm.get('images')?.setValue(selectedFiles);
     }
-    this.tourRatingForm.get('images')?.setValue(selectedFiles);
   }
-
-  // TODO -> add removeImage button
-  // private removeImage(image :string):void{
-  //   this.imagePreview.splice(this.imagePreview.indexOf(image),1);
-  // }
 }

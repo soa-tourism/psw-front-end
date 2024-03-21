@@ -17,16 +17,11 @@ import { PurchasedToursComponent } from './purchased-tours/purchased-tours.compo
 import { TourOverviewComponent } from './tour-overview/tour-overview.component';
 import { TourOverviewDetailsComponent } from './tour-overview-details/tour-overview-details.component';
 import { PurchasedToursDetailsComponent } from './purchased-tours-details/purchased-tours-details.component';
-import { TourRatingEditFormComponent } from './tour-rating-edit-form/tour-rating-edit-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ForecastPopupComponent } from './forecast-popup/forecast-popup.component';
-import { SaleComponent } from './sale/sale.component';
-import { SaleFormComponent } from './sale-form/sale-form.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { CreateCouponFormComponent } from './create-coupon-form/create-coupon-form.component';
-import { ViewCouponAuthorComponent } from './view-coupon-author/view-coupon-author.component';
 
 @NgModule({
     declarations: [
@@ -41,20 +36,13 @@ import { ViewCouponAuthorComponent } from './view-coupon-author/view-coupon-auth
         TourOverviewComponent,
         TourOverviewDetailsComponent,
         PurchasedToursDetailsComponent,
-        TourRatingEditFormComponent,
         ForecastPopupComponent,
-        SaleComponent,
-        SaleFormComponent,
-        CreateCouponFormComponent,
-        ViewCouponAuthorComponent,
     ],
     exports: [
         PreferenceFormComponent,
         TourRatingFormComponent,
         PurchasedToursComponent,
         PurchasedToursDetailsComponent,
-        CreateCouponFormComponent,
-        ViewCouponAuthorComponent,
     ],
     imports: [
         CommonModule,

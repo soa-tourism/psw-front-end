@@ -1,15 +1,11 @@
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import { MarketplaceService } from '../marketplace.service';
 import { FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { ReportedIssue } from '../../administration/model/reported-issue.model';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
-import { Tour } from '../../tour-authoring/model/tour.model';
-import { TourPreview } from '../model/tour-preview';
 import { Router } from '@angular/router';
+import { PublishedTour } from '../model/published-tour.model';
 
 
 @Component({
@@ -26,7 +22,7 @@ export class ReportingIssueComponent implements OnChanges {
     tourId: new FormControl('', [Validators.required]),
     touristId: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
   });
-  tours: TourPreview[] = [];
+  tours: PublishedTour[] = [];
 
   constructor(private service: MarketplaceService, private authService: AuthService, private router: Router) {}
 

@@ -9,20 +9,14 @@ import { TourRating } from './model/tour-rating.model';
 import { OrderItem } from './model/order-item.model';
 import { ShoppingCart } from './model/shopping-cart.model';
 import { TouristPosition } from '../tour-execution/model/position.model';
-import { Tour } from '../tour-authoring/model/tour.model';
-import { TourPreview } from './model/tour-preview';
-import { PublicTour } from './model/public-tour.model';
+import { PublishedTour } from './model/published-tour.model';
 import { TourExecution } from '../tour-execution/model/tour_execution.model';
 import { MapObject } from '../tour-authoring/model/map-object.model';
 import { PublicCheckpoint } from '../tour-execution/model/public_checkpoint.model';
 import { PurchasedTourPreview } from '../tour-execution/model/purchased_tour_preview.model';
 import { TouristWallet } from './model/tourist-wallet.model';
-import { CompositeForm } from './model/composite-create';
-import { CompositePreview } from './model/composite-preview';
-import { Sale } from './model/sale.model';
-import { CreateCoupon } from './model/create-coupon.model';
-import { Coupon } from './model/coupon.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { Coupon } from './model/coupon.model';
 
 @Injectable({
   providedIn: 'root'
@@ -57,35 +51,32 @@ export class MarketplaceService {
     return this.http.delete<TourPreference>(environment.apiHost + 'tourism/preference/' + id);
   }
 
-  getTourRating(userType: string): Observable<PagedResults<TourRating>> {
+  getTourReviewsByUser(user: User): Observable<PagedResults<TourRating>> {
     let url: string;
-    switch (userType) {
-      case 'administrator': 
-        url = 'administration/tour-rating'; 
-        break;
-      case 'author': 
-        url = 'author/tour-rating';
-        break;
+    let params = new HttpParams();
+
+    switch (user.role) {
+      case 'author':
+        url = 'author/tours/reviews';
+        params = params.set('authorId', user.id.toString());
+        return this.http.get<PagedResults<TourRating>>(environment.apiHost + url, { params });
       case 'tourist':
-        url = 'tourist/tour-rating';
-        break;
+       return this.getTourReviews(user.id, "tourist")
       default:
         throw new Error('Invalid user type');
     }
 
-    return this.http.get<PagedResults<TourRating>>(environment.apiHost + url);
   }
 
-  deleteTourRating(id: number): Observable<TourRating> {    
-    return this.http.delete<TourRating>(environment.apiHost + 'administration/tour-rating/' + id);
+  addTourRating(ratingForm: FormData): Observable<PagedResults<TourRating>> {
+    return this.http.post<PagedResults<TourRating>>(environment.apiHost + 'tourist/tours/reviews', ratingForm);
   }
 
-  addTourRating(ratingForm: FormData): Observable<TourRating> {
-    return this.http.post<TourRating>(environment.apiHost + 'tourist/tour-rating', ratingForm);
-  }
-
-  updateTourRating(rating: TourRating): Observable<TourRating> {
-    return this.http.put<TourRating>(environment.apiHost + 'tourist/tour-rating/' + rating.id, rating);
+  getTourReviews(id: number, type: string): Observable<PagedResults<TourRating>> {
+    const params = new HttpParams()
+      .set('id', id.toString())
+      .set('type', type);
+    return this.http.get<PagedResults<TourRating>>(environment.apiHost + 'tourist/tours/reviews', { params });
   }
 
   addTouristPosition(position: TouristPosition): Observable<TouristPosition> {
@@ -129,10 +120,6 @@ export class MarketplaceService {
     return this.http.put<ShoppingCart>(environment.apiHost + 'shopping/shopping-cart/checkout', null, { params });
   }
 
-  getTours(): Observable<PagedResults<Tour>> {
-    return this.http.get<PagedResults<Tour>>(environment.apiHost + 'administration/tour');
-  }
-
   getTouristsPurchasedTours(id: number): Observable<PurchasedTourPreview[]> {
     const params = new HttpParams().set('touristId', id.toString());
     return this.http.get<PurchasedTourPreview[]>(environment.apiHost + 'shopping/purchased-tours', { params })
@@ -142,29 +129,14 @@ export class MarketplaceService {
     return this.http.get<PurchasedTourPreview>(environment.apiHost + 'shopping/purchased-tours/details/' + tourId)
   }
   
-  getPublishedTours():Observable<TourPreview[]> {
-    return this.http.get<TourPreview[]>(environment.apiHost + 'tourist/shopping')
+  getPublishedTours():Observable<PublishedTour[]> {
+    return this.http.get<PublishedTour[]>(environment.apiHost + 'tourist/published-tours')
   }
 
-  getRecommendedTours(id:number):Observable<TourPreview[]> {
-    return this.http.get<TourPreview[]>(environment.apiHost + 'tourist/shopping/recommendations/' + id)
+  getPublishedTour(id: number): Observable<PublishedTour> {
+    return this.http.get<PublishedTour>(environment.apiHost + 'tourist/published-tours/' + id);
   }
 
-  getRecommendedActiveTours(id:number):Observable<TourPreview[]> {
-    return this.http.get<TourPreview[]>(environment.apiHost + 'tourist/shopping/active-recommendations/' + id)
-  }
-
-  getPublishedTour(id:number): Observable<TourPreview> {
-    return this.http.get<TourPreview>(environment.apiHost + 'tourist/shopping/details/' + id);
-  }
-
-  getActiveSales(): Observable<Sale[]> {
-    return this.http.get<Sale[]>(environment.apiHost + 'shopping/sales');
-  }
-  getAuthorsActiveSales(): Observable<Sale[]> {
-    return this.http.get<Sale[]>(environment.apiHost + 'author/sale/active');
-  }
-  //
   private cartItemCountSubject = new BehaviorSubject<number>(0);
   cartItemCount$ = this.cartItemCountSubject.asObservable();
 
@@ -172,19 +144,12 @@ export class MarketplaceService {
     this.cartItemCountSubject.next(count);
   }
 
-  getPublicTours():Observable<PublicTour[]>{
-    return this.http.get<PublicTour[]>(environment.apiHost + 'tourist/publicTours/getAll') 
-  }
   startExecution(tourId: number, touristId: number): Observable<TourExecution>{
     return this.http.post<TourExecution>(environment.apiHost + 'tour-execution/' + touristId, tourId);
   }
 
   getAverageRating(id:number): Observable<number> {
-    return this.http.get<number>(environment.apiHost + 'tourist/shopping/averageRating/' + id)
-  }
-
-  getRating(id:number): Observable<TourRating> {
-    return this.http.get<TourRating>(environment.apiHost + 'tourist/tour-rating/getTourRating/' + id)
+    return this.http.get<number>(environment.apiHost + 'tourist/published-tours/average/' + id)
   }
 
   getMapObjects(): Observable<PagedResults<MapObject>>{
@@ -209,63 +174,7 @@ export class MarketplaceService {
     return this.http.put<TouristWallet>(environment.apiHost + 'tourist/wallet/payment-adventure-coins/' + id + '/' + coins, null)
   }
 
-  addCompositeTour(compositeTour: CompositeForm): Observable<CompositeForm> {
-    return this.http.post<CompositeForm>(environment.apiHost + 'tourist/compositeTours', compositeTour);
-  }
-
-  getCompositeToursId(tourId:number):Observable<CompositePreview[]> {
-    return this.http.get<CompositePreview[]>(environment.apiHost + 'tourist/compositeTours' + tourId) 
-  }
-
-  getAllCompositeTours():Observable<CompositePreview[]>{
-    return this.http.get<CompositePreview[]>(environment.apiHost + 'tourist/compositeTours') 
-  }
-
-  getAllSales(): Observable<PagedResults<Sale>>{
-    return this.http.get<PagedResults<Sale>>(environment.apiHost + 'author/sale');
-  }
-
-  createSale(sale: Sale): Observable<Sale>{
-    return this.http.post<Sale>(environment.apiHost + 'author/sale', sale);
-  }
-
-  getAllToursFromSale(saleId: number): Observable<Tour[]> {
-    return this.http.get<Tour[]>(environment.apiHost + 'author/sale/tours-on-sale/' + saleId);
-  }
-
-  deleteSale(saleId: number): Observable<Sale>{
-    return this.http.delete<Sale>(environment.apiHost + 'author/sale/' + saleId);
-  }
-
-  updateSale(sale: Sale): Observable<Sale>{
-    return this.http.put<Sale>(environment.apiHost + 'author/sale', sale);
-  }
-
-  getSale(saleId: number): Observable<Sale>{
-    return this.http.get<Sale>(environment.apiHost + 'author/sale/' + saleId);
-  }
-
-  getCoupons(): Observable<Coupon[]> {
-    return this.http.get<Coupon[]>(environment.apiHost + 'manipulation/coupon/get-all');
-  }
-
-  getAuthorCoupons(): Observable<Coupon[]> {
-    return this.http.get<Coupon[]>(environment.apiHost + 'manipulation/coupon/get-all-by-user');
-  }
-
-  createCoupon(coupon: CreateCoupon): Observable<Coupon> {
-    return this.http.post<Coupon>(environment.apiHost + 'manipulation/coupon/create', coupon);
-  }
-
-  updateCoupon(coupon: CreateCoupon): Observable<Coupon> {
-    return this.http.put<Coupon>(environment.apiHost + 'manipulation/coupon/update', coupon);
-  }
-
-  deleteCoupon(couponId: number): Observable<Coupon> {
-    return this.http.delete<Coupon>(environment.apiHost + 'manipulation/coupon/delete/' + couponId);
-  }
-
-  getByCode(couponText: string): Observable<Coupon>{
-    return this.http.get<Coupon>(environment.apiHost + 'shopping/shopping-cart/get-by-code/'+ couponText);
+  getByCode(couponText: string): Observable<Coupon> {
+    return this.http.get<Coupon>(environment.apiHost + 'shopping/shopping-cart/get-by-code/' + couponText);
   }
 }

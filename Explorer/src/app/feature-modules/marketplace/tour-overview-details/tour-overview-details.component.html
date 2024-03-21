@@ -3,12 +3,13 @@
         <div class="map">
             <xp-map></xp-map>
         </div>
-        
+        <!-- TODO uncomment -->
+<!--         
         <div class="first-checkpoint">
-            <p class="checkpoint-title">Starting checkpoint: {{tour.checkpoint.name}}</p>
+            <p class="checkpoint-title">Starting checkpoint: {{tour.checkpoints[0].name}}</p>
             <hr class="hr-checkpoint">
-            <label>{{tour.checkpoint.description}}</label>
-        </div>
+            <label>{{tour.checkpoints[0].description}}</label>
+        </div> -->
     </div>
     <div class="tour-details">
         <div class="tour-description">
@@ -29,7 +30,7 @@
                 </tr>
                 <tr>
                     <th>Price:</th>
-                    <td><span *ngIf="isTourOnSale" class="old-price"><s>{{tour.price}} 💰</s> </span><span class="price">{{tour.salePrice}} 💰</span></td>
+                    <td><span>{{tour.price}} 💰</span></td>
                 </tr>
                 <tr>
                     <th>Difficulty:</th>
@@ -72,17 +73,17 @@
         </div>
 
         <div class="checkpoint-image-container">
-            <img class="checkpoint-image" *ngIf="tour && tour.checkpoint && tour.checkpoint.pictures && tour.checkpoint.pictures.length > 0" [src]="getImageUrl(tour.checkpoint.pictures[0])">
+            <img class="checkpoint-image" *ngIf="tour && tour.checkpoints && tour.checkpoints[0].pictures && tour.checkpoints[0].pictures.length > 0" [src]="getImageUrl(tour.checkpoints[0].pictures[0])">
             <p *ngIf="tour.tourRating.length > 0" class="subtitle" style="margin-bottom: 6px;">Ratings</p>
             <div *ngIf="tour.tourRating.length > 0" class="ratings">
                 <div *ngFor="let e of tour.tourRating" class="rating-item">
-                    <label class="rating-date-label">({{ e.creationDate | date:'dd/MM/yyyy' }})</label>
+                    <label class="rating-date-label">({{ e.reviewDate | date:'dd/MM/yyyy' }})</label>
                     <div>
                         <strong>Comment:</strong> {{ e.comment }}
                     </div>
-                    <div>
+                    <!-- <div>
                         <strong>Tour Date:</strong> {{ e.tourDate | date:'dd/MM/yyyy HH:mm' }}
-                    </div>
+                    </div> -->
                     <div class="all-stars">
                         <label style="color: rgb(0, 0, 0); font-size: large; font-weight: 400; margin-right: 4px;">{{e.rating}}</label>
                         <label *ngIf="e.rating < 1; else fullStar" class="star" data-text="&#9733;">&#9734;</label>
@@ -92,13 +93,9 @@
                         <label *ngIf="e.rating < 5; else fullStar" class="star" data-text="&#9733;">&#9734;</label>
                         <ng-template #fullStar><label class="star" data-text="&#9733;">&#9733;</label></ng-template>
                     </div>
-                    <button *ngIf="isTouristRating(e)" (click)="editRating(e)" color="primary" mat-icon-button>
-                        <mat-icon>edit</mat-icon>
-                    </button>
                 </div>
             </div>
-            <p style="font-size: 22px;">Average Rating: {{ tourAvarageRating | number:'1.2-2' }}</p>
-            <button *ngIf="canSeeRecommendedTours()" class="button shop" (click)="seeRecommendedTours()">See recommended tours</button>
+            <p style="font-size: 22px;">Average Rating: {{ tour.avgRating | number:'1.2-2' }}</p>
         </div>
     </div>
 </div>

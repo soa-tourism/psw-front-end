@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MarketplaceService } from '../marketplace.service';
 import { TourRating } from '../model/tour-rating.model';
-import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { ImageService } from 'src/app/shared/image/image.service';
@@ -33,17 +32,12 @@ export class TourRatingComponent  implements OnInit {
 
   showElements(user: User): void{
     switch (user.role) {
-      case 'administrator': {
-        this.shouldDelete = true;
-        this.shouldAdd = false;
-        break;
-      }
       case 'author': {
         this.shouldDelete = false;
         this.shouldAdd = false;
         break;
       }
-      default:{ // tourist
+      case 'tourist':{
         this.shouldDelete = false;
         this.shouldAdd = true;
         break;
@@ -51,17 +45,9 @@ export class TourRatingComponent  implements OnInit {
     }
   }
 
-  deleteTourRating(id: number): void {
-    this.service.deleteTourRating(id).subscribe({
-      next: () => {
-        this.getTourRating();
-      },
-    })
-  }
-
   getTourRating(): void {
-    this.service.getTourRating(this.user.role).subscribe({
-      next: (result: PagedResults<TourRating>) => {
+    this.service.getTourReviewsByUser(this.user).subscribe({
+      next: (result) => {
         this.ratings = result.results;
         },
         error: () => {
@@ -69,11 +55,7 @@ export class TourRatingComponent  implements OnInit {
       })
   }
 
-  onAddClicked(): void {
-    this.shouldRenderTourRatingForm = true;
-  }
-
   getImageUrl(imageName: string): string {
-    return this.imageService.getImageUrl(imageName);
+    return this.imageService.getToursImageUrl(imageName);
   }
 }

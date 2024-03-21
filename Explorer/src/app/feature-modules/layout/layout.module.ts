@@ -10,7 +10,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
-import { TravelersChoiceComponent } from './travelers-choice/travelers-choice.component';
 import { FooterComponent } from './footer/footer.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,7 +21,6 @@ import { PopularBlogsComponent } from './popular-blogs/popular-blogs.component';
     HomeComponent,
     NavbarComponent,
     ProfileAdministrationComponent,
-    TravelersChoiceComponent,
     FooterComponent,
     MyProfileComponent,
     PopularBlogsComponent
@@ -44,7 +42,6 @@ import { PopularBlogsComponent } from './popular-blogs/popular-blogs.component';
     NavbarComponent,
     HomeComponent,
     ProfileAdministrationComponent,
-    TravelersChoiceComponent
   ]
 })
 export class LayoutModule { }

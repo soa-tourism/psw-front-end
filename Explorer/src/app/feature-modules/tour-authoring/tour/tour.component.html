@@ -12,21 +12,9 @@
             <div class="tour-container">
                 <div class="tour-card" *ngFor="let tour of tours">
                     <div class="image-container" (click)="openDetails(tour)">
-                        <label *ngIf="!isOnSale(tour.id || 0)" class="originalprice"> 💰{{tour.price}} AC </label>
-                        <div class="prices">
-                            <label *ngIf="isOnSale(tour.id || 0)" class="Oldprice">💰{{tour.price}} AC</label>
-                            <label *ngIf="isOnSale(tour.id || 0)" class="price"> 💰{{DiscountedPrice(tour.id || 0,
-                                tour.price)}} AC </label>
-                        </div>
-                        <div class="sale">
-                            <label *ngIf="isOnSale(tour.id || 0)" class="discount"> -{{Discount(tour.id || 0)}}%
-                            </label>
-                            <img class="last_minute" *ngIf="isLastMinute(tour.id || 0) && isOnSale(tour.id || 0)"
-                                src="../../../../assets/landing_page/last-minute-offer.png" alt="image1">
-                        </div>
+                        <label class="originalprice"> 💰{{tour.price}} AC </label>
                         <img *ngIf="tour.checkpoints && tour.checkpoints.length > 0 && tour.checkpoints[0].pictures && tour.checkpoints[0].pictures.length > 0"
                             [src]="getImageUrl(tour.checkpoints[0].pictures[0])" alt="Image1" class="tour-card-img">
-
                     </div>
                     <div class="card-top">
                         <label class="card-location-header">{{ getTourLocation(tour.id || 0) }}</label>

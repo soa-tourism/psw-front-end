@@ -1,23 +1,19 @@
-import { TourRating } from "../../marketplace/model/tour-rating.model";
-import { CheckpointPreview } from "./checkpoint-preview";
 import { Equipment } from "../../tour-authoring/model/equipment.model";
 import { TourTime } from "../../tour-authoring/model/tourTime.model";
+import { CheckpointPreview } from "./checkpoint-preview";
+import { TourRating } from "./tour-rating.model";
 
-export interface TourPreview {
+export interface PublishedTour{
     id?: number;
     name: string;
     description: string;
     difficulty: string;
     price: number;
     tags: string[];
-    authorId : number;
+    authorId: number;
     equipment: Equipment[];
-    checkpoint: CheckpointPreview;
+    checkpoints: CheckpointPreview[];
     tourRating: TourRating[];
     tourTime: TourTime[];
-    discount: number;
-    salePrice?: number;
-    isOnSale: boolean;
-    saleExpiration?: Date;
-    isLastMinute?: boolean;
+    avgRating: number;
 }

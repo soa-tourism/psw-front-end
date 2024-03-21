@@ -40,7 +40,7 @@
         <div class="tour-cards-container" [@slide]="i">
           <div class="tour-card" *ngFor="let tour of foundTours">
             <label class="card-location-header">{{ getTourLocation(tour.id || 0) }}</label>
-            <img *ngIf="tour.checkpoint.pictures && tour.checkpoint.pictures.length" [src]="getImageUrl(tour.checkpoint.pictures[0])" alt="Image1" class="img">
+            <img *ngIf="tour.checkpoints[0].pictures && tour.checkpoints[0].pictures!.length" [src]="getImageUrl(tour.checkpoints[0]!.pictures![0])" alt="Image1" class="img">
             <div *ngIf="tour.tourRating.length>0" style="height: 6vh; width: 22vh; display: flex; justify-content: center; margin-right: 5px;">
               <label style="color: white; font-size: large; font-weight: 400; margin-right: 4px;">{{averageGrade(tour)}}</label>
               <label *ngIf="+averageGrade(tour) < 1; else fullStar" class="star" data-text="&#9733;">&#9734;</label>
@@ -63,8 +63,6 @@
         </div>
       </div>
     </div>
-    <br><p class="subtitle">Travelers choice</p><br>
-    <xp-travelers-choice></xp-travelers-choice>
     <div class="popular-blogs"><br>
       <p class="subtitle">Popular blogs</p><br>
       <xp-popular-blogs></xp-popular-blogs>   
