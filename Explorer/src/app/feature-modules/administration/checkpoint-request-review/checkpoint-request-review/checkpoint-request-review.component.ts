@@ -336,7 +336,8 @@ export class CheckpointRequestReviewComponent implements OnInit{
         this.objectRequestDetails.length = 0;
         this.encounterRequestDetails.length = 0;
         this.getAllEncounterRequests();
-    },
+
+      },
       error: () => {
         // Handle errors
     }
