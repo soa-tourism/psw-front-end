@@ -4,24 +4,12 @@
             <!-- ADMIN -->
             <div class="scroller">
             <div *ngIf="user && user.role === 'administrator'">
-                <div class="sidenav-item"> 
-                    <button (click)="changeTitle('Accounts management')" [routerLink]="['accounts']">Accounts management</button>
-                    <div class="horizontal-divider"></div>
-                </div>
-                <div class="sidenav-item"> 
-                    <button (click)="changeTitle('Grade review')" [routerLink]="['grade-review']">Grade review</button>
-                    <div class="horizontal-divider"></div>
-                </div>
                 <div class="sidenav-item">
                     <button (click)="changeTitle('Manage equipment')" [routerLink]="['equipment']">Manage equipment</button>
                     <div class="horizontal-divider"></div>
                 </div>
                 <div class="sidenav-item"> 
                     <button (click)="changeTitle('Requests')" [routerLink]="['checkpoint-request-review']">Requests</button>
-                    <div class="horizontal-divider"></div>
-                </div>
-                <div class="sidenav-item"> 
-                    <button (click)="changeTitle('Reported issues')" [routerLink]="['reported-issues']">Reported issues</button>
                     <div class="horizontal-divider"></div>
                 </div>
             </div>
