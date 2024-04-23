@@ -4,7 +4,7 @@ import { CheckpointPreview } from "./checkpoint-preview";
 import { TourRating } from "./tour-rating.model";
 
 export interface PublishedTour{
-    id?: number;
+    id?: string;
     name: string;
     description: string;
     difficulty: string;

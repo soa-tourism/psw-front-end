@@ -46,7 +46,7 @@ export class TourComponent implements OnInit{
     return parseFloat((sum/count).toFixed(1)).toFixed(1);
   }
 
-  deleteTour(id: number): void {
+  deleteTour(id: string): void {
     this.service.deleteTour(id).subscribe({
       next: () => {
         this.getTour();
@@ -60,19 +60,19 @@ export class TourComponent implements OnInit{
       this.mapService.reverseSearch(tour.checkpoints[0].latitude, tour.checkpoints[0].longitude).subscribe({
         next: (location) => {
           let tourLocation: TourLocation = {
-            tourid: 0,
+            tourid: '',
             adress: ''
           };
   
           if (location.address.city === undefined) {
             tourLocation = {
-              tourid: tour.id || 0,
+              tourid: tour.id || '',
               adress: location.address.city_district + ' , ' + location.address.country 
             };
           }
           else {
             tourLocation = {
-              tourid: tour.id || 0,
+              tourid: tour.id || '',
               adress: location.address.city + ' , ' + location.address.country
             };
           }
@@ -87,7 +87,7 @@ export class TourComponent implements OnInit{
     });
   }
 
-  getTourLocation(tourid: number): string{
+  getTourLocation(tourid: string): string{
     const tourLocation = this.toursLocation.find(location => location.tourid === tourid);
     return tourLocation?.adress || "";
   }

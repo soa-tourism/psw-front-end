@@ -15,7 +15,7 @@ export class EncounterService {
   
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  addEncounter(encounter: FormData,id:number,isPrerequisite:boolean): Observable<Encounter> {
+  addEncounter(encounter: FormData, id: string,isPrerequisite:boolean): Observable<Encounter> {
 
     const params = new HttpParams()
                     .set('checkpointId', id)
@@ -23,7 +23,7 @@ export class EncounterService {
     return this.http.post<Encounter>(environment.apiHost + 'administration/encounter', encounter,{params});
   }
 
-  addTouristEncounter(encounter: FormData,id:number,isPrerequisite:boolean): Observable<Encounter> {
+  addTouristEncounter(encounter: FormData,id:string,isPrerequisite:boolean): Observable<Encounter> {
 
     const params = new HttpParams()
                     .set('checkpointId', id)
@@ -39,7 +39,7 @@ export class EncounterService {
     return this.http.put<Encounter>(environment.apiHost + 'administration/encounter', encounter);
   }
 
-  deleteEncounter(checkpointId:number): Observable<Encounter> {
+  deleteEncounter(checkpointId:string): Observable<Encounter> {
     return this.http.delete<Encounter>(environment.apiHost + 'administration/encounter/'+checkpointId);
   }
 

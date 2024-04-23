@@ -5,7 +5,7 @@ export enum Status {
   }
 
 export interface CheckpointRequest {
-    id: number,
+    id: string,
     checkpointId: number,
     authorId: number,
     status: Status

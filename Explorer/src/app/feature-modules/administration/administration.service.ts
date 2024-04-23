@@ -5,9 +5,8 @@ import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
-import { CheckpointRequest } from './model/checkpoint-request.model';
-import { ObjectRequest } from './model/object-request.model';
 import { Notification } from './model/notification.model';
+import { CheckpointRequest } from './model/checkpoint-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +20,7 @@ export class AdministrationService {
     return this.http.get<PagedResults<Equipment>>(environment.apiHost + 'administration/equipment')
   }
 
-  deleteEquipment(id: number): Observable<Equipment> {
+  deleteEquipment(id: string): Observable<Equipment> {
     return this.http.delete<Equipment>(environment.apiHost + 'administration/equipment/' + id);
   }
 
@@ -48,19 +47,6 @@ export class AdministrationService {
 
   rejectCheckpointRequest(requestId: number, comment: string): Observable<CheckpointRequest> {
     return this.http.put<CheckpointRequest>(environment.apiHost + 'administration/checkpointequests/reject/' + requestId + '/' + comment, null);
-  }
-
-  //object requests
-  getAllObjectRequests(): Observable<ObjectRequest[]> {
-    return this.http.get<ObjectRequest[]>(environment.apiHost + 'administration/objectRequests');
-  }
-
-  acceptObjectRequest(requestId: number, comment: string): Observable<ObjectRequest> {
-    return this.http.post<ObjectRequest>(environment.apiHost + 'administration/publicMapObject/create/' + requestId + '/' + comment, null);
-  }
-
-  rejectObjectRequest(requestId: number, comment: string): Observable<CheckpointRequest> {
-    return this.http.put<CheckpointRequest>(environment.apiHost + 'administration/objectRequests/reject/' + requestId + '/' + comment, null);
   }
 
   // notifications

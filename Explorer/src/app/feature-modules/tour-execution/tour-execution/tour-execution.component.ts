@@ -37,7 +37,7 @@ import { ImageService } from 'src/app/shared/image/image.service';
 export class TourExecutionComponent implements OnInit, AfterViewInit {
   @ViewChild(SimulatorComponent) simulatorComponent: SimulatorComponent;
   tour : PurchasedTourPreview;
-  tourId: number = 0;
+  tourId: string = '';
   tourExecution: TourExecution; 
   tourist: User;
   oldPosition: TouristPosition;
@@ -253,7 +253,7 @@ export class TourExecutionComponent implements OnInit, AfterViewInit {
         this.oldPosition = this.simulatorComponent.selectedPosition;
       if(this.simulatorComponent.selectedPosition != undefined)
       {
-        this.service.registerPosition(this.tourExecution.id || 0, this.simulatorComponent.selectedPosition).subscribe( result => {
+        this.service.registerPosition(this.tourExecution.id || '', this.simulatorComponent.selectedPosition).subscribe( result => {
             this.tourExecution = result;
             this.tour = result.tour;
 
@@ -335,7 +335,7 @@ export class TourExecutionComponent implements OnInit, AfterViewInit {
   findCheckpoints(): void{
     this.tourExecution.completedCheckpoints?.forEach(element => {
       var c = this.tour.checkpoints.filter(n => n.id == element.checkpointId);
-      if(this.completedCheckpoint.indexOf(this.completedCheckpoint.filter(n=>n.id==element.checkpointId)[0])==-1)
+      if (this.completedCheckpoint.indexOf(this.completedCheckpoint.filter(n => n.id == element.checkpointId)[0]))
       {
         this.completedCheckpoint.push(c[0]);
         this.completeCheckpoinOnMap([{lat: c[0].latitude, lon: c[0].longitude, picture: c[0].pictures![0], name: c[0].name, desc: c[0].description}])

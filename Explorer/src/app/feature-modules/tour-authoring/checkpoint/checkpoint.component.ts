@@ -29,7 +29,7 @@ export class CheckpointComponent implements OnInit{
     checkpoints: Checkpoint[] = [];
     shouldRenderCheckpointForm: boolean = false;
     shouldEdit: boolean = false;
-    tourID: number;
+    tourID: string;
     tour: Tour;
     selectedCheckpoint: Checkpoint;
     distance: number;
@@ -126,7 +126,7 @@ export class CheckpointComponent implements OnInit{
       this.shouldEdit = true;
     }
 
-    onDelete(id: number): void{
+    onDelete(id: string): void{
       this.service.deleteCheckpoint(id).subscribe({
         next: () => {
           this.tourUpdated.emit();

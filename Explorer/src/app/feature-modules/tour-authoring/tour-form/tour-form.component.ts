@@ -21,7 +21,7 @@ export class TourFormComponent implements OnChanges,OnInit{
 
   user: User;
   tags:string[]=[];
-  id:number;
+  id:string;
 
 
   constructor(private service: TourAuthoringService,private authService: AuthService,private router:Router,private activatedRoute:ActivatedRoute){
@@ -42,7 +42,7 @@ export class TourFormComponent implements OnChanges,OnInit{
 
     this.activatedRoute.params.subscribe(params=>{
       this.id=params['id'];
-      if(this.id != 0)
+      if(this.id != '0')
       {
         this.shouldEdit=true;
         this.getTour(this.id);
@@ -89,7 +89,7 @@ export class TourFormComponent implements OnChanges,OnInit{
     };
     this.service.addTour(tour).subscribe(
     (response:Tour)=>{
-      this.id=response.id||0;
+      this.id = response.id || '';
       this.tourUpdated.emit();
       this.showEquipment();
 
@@ -151,7 +151,7 @@ export class TourFormComponent implements OnChanges,OnInit{
 
   }
 
-  getTour(id: number): void {
+  getTour(id: string): void {
     this.service.get(id).subscribe((result: Tour) => {
       this.tour = result;
       console.log(this.tour);

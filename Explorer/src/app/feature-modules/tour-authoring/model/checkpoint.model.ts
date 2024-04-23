@@ -2,8 +2,8 @@ import { Encounter } from "../../encounters/model/encounter.model";
 import { CheckpointSecret } from "./checkpointSecret.model";
 
 export interface Checkpoint{
-    id?: number,
-    tourId: number,
+    id?: string,
+    tourId: string,
     authorId: number,
     longitude: number,
     latitude: number,

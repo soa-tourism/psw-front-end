@@ -4,7 +4,7 @@ import { Equipment } from "./equipment.model";
 import { TourTime } from "./tourTime.model";
 
 export interface Tour {
-    id?: number;
+    id?: string;
     name: string;
     description: string;
     difficulty: string;

@@ -56,7 +56,7 @@ export class MarketplaceService {
         params = params.set('authorId', user.id.toString());
         return this.http.get<PagedResults<TourRating>>(environment.apiHost + url, { params });
       case 'tourist':
-       return this.getTourReviews(user.id, "tourist")
+       return this.getTourReviews(user.id.toString(), "tourist")
       default:
         throw new Error('Invalid user type');
     }
@@ -67,7 +67,7 @@ export class MarketplaceService {
     return this.http.post<PagedResults<TourRating>>(environment.apiHost + 'tourist/tours/reviews', ratingForm);
   }
 
-  getTourReviews(id: number, type: string): Observable<PagedResults<TourRating>> {
+  getTourReviews(id: string, type: string): Observable<PagedResults<TourRating>> {
     const params = new HttpParams()
       .set('id', id.toString())
       .set('type', type);
@@ -128,7 +128,7 @@ export class MarketplaceService {
     return this.http.get<PublishedTour[]>(environment.apiHost + 'tourist/published-tours')
   }
 
-  getPublishedTour(id: number): Observable<PublishedTour> {
+  getPublishedTour(id: string): Observable<PublishedTour> {
     return this.http.get<PublishedTour>(environment.apiHost + 'tourist/published-tours/' + id);
   }
 
@@ -139,11 +139,11 @@ export class MarketplaceService {
     this.cartItemCountSubject.next(count);
   }
 
-  startExecution(tourId: number, touristId: number): Observable<TourExecution>{
+  startExecution(tourId: string, touristId: number): Observable<TourExecution>{
     return this.http.post<TourExecution>(environment.apiHost + 'tour-execution/' + touristId, tourId);
   }
 
-  getAverageRating(id:number): Observable<number> {
+  getAverageRating(id:string): Observable<number> {
     return this.http.get<number>(environment.apiHost + 'tourist/published-tours/average/' + id)
   }
 

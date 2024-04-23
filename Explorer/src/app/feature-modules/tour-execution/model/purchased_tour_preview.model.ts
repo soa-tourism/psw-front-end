@@ -6,7 +6,7 @@ import { TourTime } from "../../tour-authoring/model/tourTime.model";
 import { Checkpoint } from "../../tour-authoring/model/checkpoint.model";
 
 export interface PurchasedTourPreview{
-    id: number,
+    id: string,
     name: string,
     description: string,
     difficulty: string,

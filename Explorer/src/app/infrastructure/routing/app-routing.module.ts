@@ -20,7 +20,6 @@ import { BlogPostComponent } from 'src/app/feature-modules/blog/blog-post/blog-p
 import { BlogPostManagementComponent } from 'src/app/feature-modules/blog/blog-post-management/blog-post-management.component';
 import { SimulatorComponent } from 'src/app/feature-modules/tour-execution/simulator/simulator.component';
 import { SocialProfileComponent } from 'src/app/feature-modules/user-social-profile/social-profile/social-profile.component';
-import { ObjectRequestReviewComponent } from 'src/app/feature-modules/administration/object-request-review/object-request-review/object-request-review.component';
 import { TourEquipmentComponent } from 'src/app/feature-modules/tour-authoring/tour-equipment/tour-equipment.component';
 import { TourOverviewComponent } from 'src/app/feature-modules/marketplace/tour-overview/tour-overview.component';
 import { TourOverviewDetailsComponent } from 'src/app/feature-modules/marketplace/tour-overview-details/tour-overview-details.component';
@@ -83,7 +82,6 @@ const routes: Routes = [
   {path: 'tour-form/:id', component: TourFormComponent,canActivate:[AuthGuard]},
   {path: 'tour', component: TourComponent,canActivate:[AuthGuard]},
   {path: 'checkpoint-request-review', component: CheckpointRequestReviewComponent},
-  {path: 'object-request-review', component: ObjectRequestReviewComponent},
   {path: 'tour-details/:id', component: TourDetailsComponent, canActivate: [AuthGuard]},
   {path: 'blogs', component: BlogPostTableComponent, canActivate: [AuthGuard]},
   {path: 'blogs/:id', component: BlogPostComponent, canActivate: [AuthGuard]},

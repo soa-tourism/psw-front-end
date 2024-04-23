@@ -1,9 +1,9 @@
 export interface TourRating {
-    id?: number;
+    id?: string;
     rating: number;
     comment?: string;
     touristId: number;
-    tourId: number;
+    tourId: string;
     tourDate: Date
     reviewDate: Date;
     imageNames?: string[];

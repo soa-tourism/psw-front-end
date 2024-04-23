@@ -18,7 +18,7 @@ export class CheckpointSecretFormComponent implements OnInit{
   constructor(private service: TourAuthoringService, private imageService: ImageService, private router:Router,private activatedRoute:ActivatedRoute){
   }
 
-  id:number;
+  id:string;
   shouldEdit:Boolean=false;
   checkpoint:Checkpoint;
   picturePreview: string[] = [];
@@ -31,7 +31,7 @@ export class CheckpointSecretFormComponent implements OnInit{
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params=>{
       this.id=params['id'];
-      if(this.id != 0)
+      if(this.id != '')
       {
         this.getCheckpoint(this.id);
       }
@@ -45,7 +45,7 @@ export class CheckpointSecretFormComponent implements OnInit{
     }
   }
 
-  getCheckpoint(id: number): void {
+  getCheckpoint(id: string): void {
     this.service.getCheckpoint(id).subscribe((result: Checkpoint) => {
       this.checkpoint = result;
       console.log(this.checkpoint);
@@ -71,12 +71,17 @@ export class CheckpointSecretFormComponent implements OnInit{
     if(secret.description!=="")
     {
       console.log(secret);
-      this.service.addCheckpointSecret(formData,this.id).subscribe((result: Checkpoint) => {
-        this.checkpoint = result;
-        console.log(this.checkpoint);
-      });
-      this.router.navigate([`checkpoint/${this.checkpoint.tourId}`]);
-
+      this.service.addCheckpointSecret(formData, this.id).subscribe(
+        (result: Checkpoint) => {
+          this.checkpoint = result;
+          console.log(this.checkpoint);
+          this.router.navigate([`checkpoint/${this.checkpoint.tourId}`]);
+        },
+        (error) => {
+          console.error("Failed to add checkpoint secret:", error);
+          this.router.navigate([`checkpoint/${this.checkpoint.tourId}`]);
+        }
+      );
     }
   }
 

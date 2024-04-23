@@ -3,9 +3,9 @@ import { PurchasedTourPreview } from "./purchased_tour_preview.model";
 
 
 export interface TourExecution{
-    id?:number,
+    id?: string,
     touristId: number,
-    tourId: number,
+    tourId: string,
     tour: PurchasedTourPreview,
     start: Date,
     lastActivity: Date,

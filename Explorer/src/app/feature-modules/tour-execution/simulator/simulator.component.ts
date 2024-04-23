@@ -28,7 +28,7 @@ export class SimulatorComponent implements OnInit {
     this.getPosition();
   }
 
-  deletePosition(id: number): void {
+  deletePosition(id: string): void {
     this.service.deleteTouristPosition(id).subscribe({
       next: () => {
         this.getPosition();

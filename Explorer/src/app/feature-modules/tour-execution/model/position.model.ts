@@ -1,5 +1,5 @@
 export interface TouristPosition{
-    id?: number;
+    id?: string;
     creatorId: number;
     latitude: number;
     longitude: number;

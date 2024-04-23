@@ -6,7 +6,6 @@ import { EquipmentComponent } from './equipment/equipment.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CheckpointRequestReviewComponent } from './checkpoint-request-review/checkpoint-request-review/checkpoint-request-review.component';
-import { ObjectRequestReviewComponent } from './object-request-review/object-request-review/object-request-review.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
@@ -14,8 +13,6 @@ import { NotificationsComponent } from './notifications/notifications.component'
     EquipmentFormComponent,
     EquipmentComponent,
     CheckpointRequestReviewComponent,
-    CheckpointRequestReviewComponent,
-    ObjectRequestReviewComponent,
     NotificationsComponent
   ],
   imports: [
@@ -28,7 +25,6 @@ import { NotificationsComponent } from './notifications/notifications.component'
     EquipmentComponent,
     EquipmentFormComponent,
     CheckpointRequestReviewComponent,
-    ObjectRequestReviewComponent,
   ]
 })
 export class AdministrationModule { }

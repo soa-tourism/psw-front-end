@@ -27,7 +27,7 @@ export class TourDetailsComponent implements OnInit{
 
 
   constructor(private service: TourAuthoringService, private activatedRoute: ActivatedRoute, private router: Router, public dialog: MatDialog, private imageService: ImageService) { }
-  tourID:number;
+  tourID:string;
   ngOnInit(): void {
    this.activatedRoute.params.subscribe(params=>{
     this.tourID=params['id'];
@@ -69,7 +69,7 @@ export class TourDetailsComponent implements OnInit{
       this.mapComponent.setRouteWithInfo(coords, this.profile);
   }
 }
-  getTour(id: number): void {
+  getTour(id: string): void {
     this.service.get(id).subscribe((result: Tour) => {
       this.tour = result;
       console.log(this.tour.checkpoints);
@@ -93,7 +93,7 @@ export class TourDetailsComponent implements OnInit{
   }
 
   onDelete():void{
-    let id=this.tour.id||0;
+    let id = this.tour.id || '';
     this.service.deleteTour(id).subscribe({
       next: () => {
         this.router.navigate([`tour`]);
@@ -111,7 +111,7 @@ export class TourDetailsComponent implements OnInit{
   }
 
   publishTour(): void{
-    this.service.publishTour(this.tour.id || 0).subscribe({
+    this.service.publishTour(this.tour.id || '').subscribe({
       next: (result: Tour) => {
         this.tour = result;
         this.fillCheckpointDetails();

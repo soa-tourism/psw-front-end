@@ -22,7 +22,7 @@ export class EquipmentComponent implements OnInit {
     this.getEquipment();
   }
   
-  deleteEquipment(id: number): void {
+  deleteEquipment(id: string): void {
     this.service.deleteEquipment(id).subscribe({
       next: () => {
         this.getEquipment();
