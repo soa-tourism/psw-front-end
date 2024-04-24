@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SocialProfile } from './model/social-profile.model';
 import { environment } from 'src/env/environment';
-import { Message } from './model/message.model';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,32 +17,19 @@ export class UserSocialProfileService {
     return this.http.get<SocialProfile>(environment.apiHost + 'social-profile/get/' + id);
   }
 
-  follow(followerId: number, followedId: number): Observable<SocialProfile> {
-    return this.http.post<SocialProfile>(environment.apiHost + 'social-profile/follow/' + followerId + '/' + followedId, null);
+  getSocilaProfileRecommended(id: number): Observable<PagedResults<SocialProfile>> {
+    return this.http.get<PagedResults<SocialProfile>>(environment.apiHost + 'social-profile/get-recommended/' + id);
   }
 
-  unfollow(followerId: number, unfollowedId: number): Observable<SocialProfile>{
-    return this.http.post<SocialProfile>(environment.apiHost + 'social-profile/un-follow/' + followerId + '/' + unfollowedId, null);
+  follow(userId: number, followerId: number): Observable<SocialProfile> {
+    return this.http.put<SocialProfile>(environment.apiHost + 'social-profile/follow/' + userId + '/' + followerId, null);
   }
 
-  getNotifications(id: number): Observable<Message[]> {
-    return this.http.get<Message[]>(environment.apiHost + 'profile-messaging/notifications/' + id);
+  unfollow(followedId: number, userId: number): Observable<SocialProfile>{
+    return this.http.delete<SocialProfile>(environment.apiHost + 'social-profile/unfollow/' + followedId + '/' + userId);
   }
 
-  getInbox(id: number): Observable<Message[]> {
-    return this.http.get<Message[]>(environment.apiHost + 'profile-messaging/inbox/' + id);
+  searchSocialProfilesByUsername(username: string): Observable<SocialProfile> {
+    return this.http.get<SocialProfile>(environment.apiHost + 'social-profile/search/' + username);
   }
-
-  getSent(id: number): Observable<Message[]> {
-    return this.http.get<Message[]>(environment.apiHost + 'profile-messaging/sent/' + id);
-  }
-
-  markAsRead(id: number): Observable<Message> {
-    return this.http.put<Message>(environment.apiHost + 'profile-messaging/read/' + id, null);
-  }
-
-  sendMessage(message: Message): Observable<Message> {
-    return this.http.post<Message>(environment.apiHost + 'profile-messaging/send/', message);
-  }
-
 }
