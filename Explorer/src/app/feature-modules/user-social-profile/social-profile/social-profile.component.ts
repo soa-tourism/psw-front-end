@@ -59,10 +59,16 @@ export class SocialProfileComponent implements OnInit {
   }
 
   search(): void {
-    if (this.searchProfiles !== ""){
+    if (this.searchProfiles){
       this.service.searchSocialProfilesByUsername(this.searchProfiles).subscribe(
         (result:any) => {
-          this.searched = result;
+          // Filter out profiles already in following and the logged-in user
+          this.searched = result.filter((profile: SocialProfile) => {
+            if (profile.userId !== this.socialProfile.userId) {
+            return !this.socialProfile.following.some(followed => followed.userId === profile.userId);
+            }
+            return false;
+        });
       });
     }
   }

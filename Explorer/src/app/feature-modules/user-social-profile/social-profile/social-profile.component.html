@@ -53,23 +53,21 @@
             
             <div>
                 <!-- search socialProfiles by username -->
-                <form (ngSubmit)="search()">
-                    <div class="search-field-container">
-                        <input class="search-field" type="text" placeholder="Search social profiles" name="searchProfiles" [(ngModel)]="searchProfiles">
-                        <button type="submit" mat-raised-button class="button">
-                            <div class="search-button">
-                                <mat-icon>search</mat-icon>
-                            </div>
-                        </button>
-                    </div>
-                </form>
+                <div class="search-field-container">
+                    <input class="search-field" type="text" placeholder="Search social profiles" name="searchProfiles" [(ngModel)]="searchProfiles">                        
+                    <button class="button" (click)="search()">
+                        <div class="search-button">
+                            <mat-icon>search</mat-icon>
+                        </div>
+                    </button>
+                </div>
                 
                 <!-- display searched -->
                 <div *ngIf="searched != undefined">
                     <table class="follow-table">
-                        <caption class="follow-table-caption">Recommended</caption>
+                        <caption class="follow-table-caption"></caption>
                         <thead>
-                            <th>Username</th>
+                            <th></th>
                             <th></th>
                         </thead>
                         <tbody>
