@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SocialProfile } from '../model/social-profile.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { UserSocialProfileService } from '../user-social-profile.service';
@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
   templateUrl: './social-profile.component.html',
   styleUrls: ['./social-profile.component.css']
 })
-export class SocialProfileComponent{
+export class SocialProfileComponent implements OnInit {
   user: User | undefined;
   socialProfile: SocialProfile;
   recommended: SocialProfile[];
@@ -17,6 +17,13 @@ export class SocialProfileComponent{
   searchProfiles: string = "";
   
   constructor(private service: UserSocialProfileService, private authService: AuthService){
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+      this.getSocialProfile(this.user.id);
+    });
+  }
+
+  ngOnInit(): void {
     this.authService.user$.subscribe(user => {
       this.user = user;
       this.getSocialProfile(this.user.id);
@@ -52,7 +59,7 @@ export class SocialProfileComponent{
   }
 
   search(): void {
-    if (this.searchProfiles != ""){
+    if (this.searchProfiles !== ""){
       this.service.searchSocialProfilesByUsername(this.searchProfiles).subscribe(
         (result:any) => {
           this.searched = result;
