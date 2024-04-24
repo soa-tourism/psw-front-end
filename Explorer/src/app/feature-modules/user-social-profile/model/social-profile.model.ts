@@ -1,8 +1,6 @@
-import { Account } from "../../administration/model/account.model";
-
 export interface SocialProfile {
-    id?: number;
-    followers: Account[];
-    followed: Account[];
-    followable: Account[];
+    userId: number;
+    username: string;
+    followers: SocialProfile[];
+    following: SocialProfile[];
 }
