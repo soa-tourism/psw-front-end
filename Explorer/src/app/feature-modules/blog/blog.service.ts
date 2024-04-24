@@ -35,6 +35,10 @@ export class BlogService {
     return this.http.get<PagedResults<BlogPost>>(environment.apiHost + `blogging/blog-posts/user/${userId}`)
   }
 
+  getBlogPostsOfFollowers(userId: number): Observable<BlogPost[]> {
+    return this.http.get<BlogPost[]>(environment.apiHost + `blogging/blog-posts/followers/${userId}`);
+  }
+  
   addBlogPost(blogPost: FormData): Observable<BlogPost> {
     return this.http.post<BlogPost>(environment.apiHost + 'blogging/blog-posts', blogPost);
   }
