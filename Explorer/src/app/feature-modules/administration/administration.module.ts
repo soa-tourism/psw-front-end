@@ -7,13 +7,19 @@ import { MaterialModule } from 'src/app/infrastructure/material/material.module'
 import { ReactiveFormsModule } from '@angular/forms';
 import { CheckpointRequestReviewComponent } from './checkpoint-request-review/checkpoint-request-review/checkpoint-request-review.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { ApplicationGradeComponent } from './application-grade-form/application-grade.component';
+import { GradeReviewComponent } from './grade-review/grade-review.component';
+import { AccountsManagementComponent } from './accounts-management/accounts-management.component';
 
 @NgModule({
   declarations: [
     EquipmentFormComponent,
     EquipmentComponent,
     CheckpointRequestReviewComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    ApplicationGradeComponent,
+    AccountsManagementComponent, 
+    GradeReviewComponent
   ],
   imports: [
     CommonModule,
@@ -25,6 +31,9 @@ import { NotificationsComponent } from './notifications/notifications.component'
     EquipmentComponent,
     EquipmentFormComponent,
     CheckpointRequestReviewComponent,
+    GradeReviewComponent,
+    AccountsManagementComponent,
+    ApplicationGradeComponent
   ]
 })
 export class AdministrationModule { }

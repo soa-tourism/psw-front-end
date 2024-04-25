@@ -35,6 +35,9 @@ import { EncounterRequestComponent } from 'src/app/feature-modules/encounters/en
 import { TouristCurrentPositionComponent } from 'src/app/feature-modules/tourist-current-position/tourist-current-position.component';
 import { ResetPasswordComponent } from '../auth/reset-password/reset-password/reset-password.component';
 import { VerificationSuccessComponent } from '../auth/verification-success/verification-success.component';
+import { AccountsManagementComponent } from 'src/app/feature-modules/administration/accounts-management/accounts-management.component';
+import { GradeReviewComponent } from 'src/app/feature-modules/administration/grade-review/grade-review.component';
+import { ApplicationGradeComponent } from 'src/app/feature-modules/administration/application-grade-form/application-grade.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -50,7 +53,9 @@ const routes: Routes = [
       //ADMIN
       { path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard]},
       { path: 'checkpoint-request-review', component: CheckpointRequestReviewComponent, canActivate: [AuthGuard]},
-
+      { path: 'accounts', component: AccountsManagementComponent, canActivate: [AuthGuard], },
+      { path: 'grade-review', component: GradeReviewComponent, canActivate: [AuthGuard], },
+      
       //TOURIST and AUTHOR
       { path: 'profile-info', component: ProfileAdministrationComponent, canActivate: [AuthGuard],},
       { path: 'my-blogs', component: BlogPostManagementComponent, canActivate: [AuthGuard]},
@@ -76,11 +81,14 @@ const routes: Routes = [
   },
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard]},
   {path: 'profile-info', component: ProfileAdministrationComponent},
-  {path: 'profile-info', component: ProfileAdministrationComponent},
+  { path: 'profile-info', component: ProfileAdministrationComponent },
+  { path: 'accounts', component: AccountsManagementComponent, canActivate: [AuthGuard], },
   {path: 'checkpoint/:id', component: CheckpointComponent, canActivate: [AuthGuard]},
   {path: 'map-object', component: MapObjectComponent, canActivate: [AuthGuard]},
   {path: 'tour-form/:id', component: TourFormComponent,canActivate:[AuthGuard]},
-  {path: 'tour', component: TourComponent,canActivate:[AuthGuard]},
+  { path: 'tour', component: TourComponent, canActivate: [AuthGuard] },
+  { path: 'application-grade', component: ApplicationGradeComponent },
+  { path: 'grade-review', component: GradeReviewComponent },
   {path: 'checkpoint-request-review', component: CheckpointRequestReviewComponent},
   {path: 'tour-details/:id', component: TourDetailsComponent, canActivate: [AuthGuard]},
   {path: 'blogs', component: BlogPostTableComponent, canActivate: [AuthGuard]},

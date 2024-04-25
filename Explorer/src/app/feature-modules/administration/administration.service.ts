@@ -7,6 +7,8 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Notification } from './model/notification.model';
 import { CheckpointRequest } from './model/checkpoint-request.model';
+import { ApplicationGrade } from './model/applicationGrade.model';
+import { Account } from './model/account.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +38,22 @@ export class AdministrationService {
     return this.http.get<PagedResults<User>>('https://localhost:44333/api/user');
   }
 
+  getAllGrades(): Observable<ApplicationGrade[]> {
+    return this.http.get<ApplicationGrade[]>(environment.apiHost + 'administration/applicationGrade');
+  }
+
+  noteTheRate(grade: ApplicationGrade): Observable<ApplicationGrade> {
+    return this.http.post<ApplicationGrade>(environment.apiHost + 'tour/applicationGrade', grade);
+  }
+
+  getAccounts(): Observable<PagedResults<Account>> {
+    return this.http.get<PagedResults<Account>>(environment.apiHost + 'administration/accountsManagement')
+  }
+
+  block(id: number): Observable<PagedResults<Account>> {
+    return this.http.put<PagedResults<Account>>(environment.apiHost + 'administration/accountsManagement/block/' + id, null);
+  }
+  
   //checkpoint requests
   getAllCheckpointRequests(): Observable<CheckpointRequest[]> {
     return this.http.get<CheckpointRequest[]>(environment.apiHost + 'administration/checkpointequests');
