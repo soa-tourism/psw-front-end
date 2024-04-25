@@ -21,7 +21,7 @@ export class CheckpointFormComponent implements OnChanges, OnInit{
   @Output() checkpointUpdated = new EventEmitter<null>();
   @Input() selectedCheckpoint: Checkpoint;
   @Input() shouldEdit: boolean = false;
-  @Input() tourID: number = 0;
+  @Input() tourID: string = '';
   longitude: number = 0;
   latitude: number = 0;
   publicCheckpoints: PublicCheckpoint[] = [];
@@ -40,7 +40,7 @@ export class CheckpointFormComponent implements OnChanges, OnInit{
       this.publicCheckpoints = result.results;
       this.addPublicCheckpoinsOnMap();
     });
-    this.service.getCheckpoint(this.selectedCheckpoint.id || 0).subscribe(result =>{
+    this.service.getCheckpoint(this.selectedCheckpoint.id || '').subscribe(result =>{
       this.selectedCheckpoint = result;
     });
 

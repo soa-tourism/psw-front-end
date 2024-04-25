@@ -1,6 +1,6 @@
 export interface CheckpointPreview{
-    id?: number,
-    tourId: number,
+    id?: string,
+    tourId: string,
     longitude: number,
     latitude: number,
     name: string,

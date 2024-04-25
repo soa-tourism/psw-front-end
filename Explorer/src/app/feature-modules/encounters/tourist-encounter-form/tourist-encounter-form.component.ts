@@ -28,13 +28,13 @@ export class TouristEncounterFormComponent {
 
   @ViewChild(MapComponent) mapComponent: MapComponent;
   authorId:number;
-  id:number;
+  id:string;
   imagePreview: string[] = [];
   encounter:Encounter;
   edit:boolean=false;
   encounterId:number;
   checkpoints: Checkpoint[] = [];
-  checkpointID: number | undefined;
+  checkpointID: string | undefined;
   longitude: number | undefined
   latitude: number | undefined
 
@@ -66,7 +66,7 @@ export class TouristEncounterFormComponent {
     locationLongitude:new FormControl(0),
     locationLatitude:new FormControl(0),
     images:new FormControl(''),
-    checkpointId: new FormControl(0,[Validators.required])
+    checkpointId: new FormControl('',[Validators.required])
   });
   type:string=this.encounterForm.value.type||"";
 
@@ -104,7 +104,7 @@ export class TouristEncounterFormComponent {
 
     if(this.edit==false){
 
-    this.service.addTouristEncounter(formData,this.encounterForm.value.checkpointId || -1,this.encounterForm.value.isPrerequisite|| false).subscribe({
+    this.service.addTouristEncounter(formData,this.encounterForm.value.checkpointId || '',this.encounterForm.value.isPrerequisite|| false).subscribe({
       next: () => {
         this.encounterForm.reset();
         this.imagePreview = [];
@@ -200,7 +200,7 @@ export class TouristEncounterFormComponent {
     });
   }
 
-  onCheckpointSelected(checkpointId: number | undefined): void {
+  onCheckpointSelected(checkpointId: string | undefined): void {
     // Dobijte izabrani checkpoint
     console.log('onCheckpointSelected called');
     const selectedCheckpoint = this.checkpoints.find(checkpoint => checkpoint.id === checkpointId);

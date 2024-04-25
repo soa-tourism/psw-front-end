@@ -29,7 +29,7 @@ export class EncounterFormComponent implements OnInit{
 
   @ViewChild(MapComponent) mapComponent: MapComponent;
   authorId:number;
-  id:number;
+  id:string;
   checkpoint:Checkpoint;
   imagePreview: string[] = [];
   encounter:Encounter;
@@ -54,7 +54,7 @@ export class EncounterFormComponent implements OnInit{
     })
   }
 
-  getCheckpoint(id: number): void {
+  getCheckpoint(id: string): void {
     this.tourAuthoringService.getCheckpoint(id).subscribe((result: Checkpoint) => {
       this.checkpoint = result;
       this.encounterForm.controls.latitude.setValue(this.checkpoint.latitude);

@@ -6,13 +6,10 @@ import { Checkpoint } from 'src/app/feature-modules/tour-authoring/model/checkpo
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { TourAuthoringService } from 'src/app/feature-modules/tour-authoring/tour-authoring.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
-import { ObjectRequest } from '../../model/object-request.model';
 import { MapObject } from 'src/app/feature-modules/tour-authoring/model/map-object.model';
 import { Encounter } from 'src/app/feature-modules/encounters/model/encounter.model';
 import { Status, EncounterRequest } from 'src/app/feature-modules/encounters/model/encounterRequest.model';
-import { forkJoin } from 'rxjs';
 import { EncounterService } from 'src/app/feature-modules/encounters/encounter.service';
-import { List } from 'postcss/lib/list';
 
 @Component({
   selector: 'xp-checkpoint-request-review',
@@ -28,7 +25,6 @@ export class CheckpointRequestReviewComponent implements OnInit{
 
   objectRequestDetails: { id: number, objectName: string, objectDescription: string, authorName: string, status: Status, onHold:boolean, comment: string }[] = [];
   allObjects: PagedResults<MapObject>;
-  allObjectRequests: ObjectRequest[] = [];
 
   encounterRequestDetails: { id: number, encounterName: string, encounterXp: number,encounterLongitude: number,encounterLatitude: number, touristName: string, status: Status, onHold:boolean}[] = [];
   allEncounters: PagedResults<Encounter>;

@@ -1,5 +1,5 @@
 export interface CheckpointCompletition{
-    tourExecutionId: number,
-    checkpointId: number,
+    tourExecutionId: string,
+    checkpointId: string,
     completitionTime: Date
 }

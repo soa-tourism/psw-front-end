@@ -22,7 +22,7 @@ export class TourRatingFormComponent implements OnChanges, OnInit {
   @Input() shouldEdit: boolean = false;
   user: User;
   imagePreview: string[] = [];
-  tourId: number;
+  tourId: string;
   authorId: number;
 
   constructor(private service: MarketplaceService, private authService: AuthService,
@@ -57,7 +57,7 @@ export class TourRatingFormComponent implements OnChanges, OnInit {
   tourRatingForm = new FormGroup({
     rating: new FormControl(0, [Validators.required]),
     comment: new FormControl(''),
-    tourId: new FormControl(0, [Validators.required]),
+    tourId: new FormControl('', [Validators.required]),
     tourDate: new FormControl(new Date()),
     images: new FormControl('')
   });

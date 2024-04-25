@@ -22,7 +22,7 @@ export class TourOverviewDetailsComponent implements OnInit {
   @ViewChild(MapComponent) mapComponent: MapComponent;
 
   tour: PublishedTour;
-  tourID: number;
+  tourID: string;
   checkpoints: CheckpointPreview;
   profiles: string[] = ['walking', 'cycling', 'driving'];
   profile: string = this.profiles[0];
@@ -101,7 +101,7 @@ export class TourOverviewDetailsComponent implements OnInit {
     return purchasedTours.some(tour => tour.id.toString() === this.tourID.toString());
   }
 
-  getPublishedTour(id: number): void {
+  getPublishedTour(id: string): void {
     this.service.getPublishedTour(id).subscribe((result: PublishedTour) => {
       this.tour = result;
       console.log(this.tour);
@@ -141,7 +141,7 @@ export class TourOverviewDetailsComponent implements OnInit {
     const isConfirmed = window.confirm('Are you sure you want to add this item to the cart?');
     if (isConfirmed) {
       const orderItem: OrderItem = {
-        itemId: t.id || 0,
+        itemId: t.id || '',
         name: t.name,
         price: t.price,
         type: ItemType.Tour

@@ -33,15 +33,15 @@ export class TourAuthoringService {
     return this.http.get<PagedResults<Checkpoint>>(environment.apiHost + 'administration/checkpoint')
   }
 
-  getCheckpoint(id:number): Observable<Checkpoint> {
+  getCheckpoint(id:string): Observable<Checkpoint> {
     return this.http.get<Checkpoint>(environment.apiHost + 'administration/checkpoint/details/'+id);
   }
 
-  getCheckpointsByTour(id: number): Observable<PagedResults<Checkpoint>> {
+  getCheckpointsByTour(id: string): Observable<PagedResults<Checkpoint>> {
     return this.http.get<PagedResults<Checkpoint>>(environment.apiHost + 'administration/checkpoint/' + id)
   }
 
-  deleteCheckpoint(id: number): Observable<Checkpoint> {
+  deleteCheckpoint(id: string): Observable<Checkpoint> {
     return this.http.delete<Checkpoint>(environment.apiHost + 'administration/checkpoint/' + id);
   }
 
@@ -49,12 +49,12 @@ export class TourAuthoringService {
     return this.http.post<Checkpoint>(environment.apiHost +`administration/checkpoint/create/${status}`, checkpoint);
   }
 
-  updateCheckpoint(checkpointId: number, checkpoint: FormData): Observable<Checkpoint> {
+  updateCheckpoint(checkpointId: string, checkpoint: FormData): Observable<Checkpoint> {
     console.log(checkpointId);
     return this.http.put<Checkpoint>(environment.apiHost + 'administration/checkpoint/' + checkpointId, checkpoint);
   }
 
-  addCheckpointSecret(checkpointSecret: FormData, id: number): Observable<Checkpoint> {
+  addCheckpointSecret(checkpointSecret: FormData, id: string): Observable<Checkpoint> {
     return this.http.put<Checkpoint>(environment.apiHost + 'administration/checkpoint/createSecret/' + id, checkpointSecret);
   }
 
@@ -104,7 +104,7 @@ export class TourAuthoringService {
   }
   // ---------------------------------------------------------
 
-  get(id: number): Observable<Tour> {
+  get(id: string): Observable<Tour> {
     return this.http.get<Tour>(environment.apiHost + 'administration/tours/' + id);
   }
 
@@ -116,7 +116,7 @@ export class TourAuthoringService {
     return this.http.put<Tour>(environment.apiHost + 'administration/tours/' + tour.id, tour);
   }
 
-  deleteTour(id: number): Observable<Tour> {
+  deleteTour(id: string): Observable<Tour> {
     return this.http.delete<Tour>(environment.apiHost + 'administration/tours/' + id);
   }
 
@@ -124,15 +124,15 @@ export class TourAuthoringService {
     return this.http.get<PagedResults<Tour>>(environment.apiHost + 'administration/tours/author/' + id)
   }
 
-  addEquipment(tourId: number, equipmentId: number): Observable<Tour> {
+  addEquipment(tourId: string, equipmentId: string): Observable<Tour> {
     return this.http.post<Tour>(`${environment.apiHost}administration/tours/${tourId}/equipment/${equipmentId}`, null);
   }
 
-  removeEquipment(tourId: number, equipmentId: number): Observable<Tour> {
+  removeEquipment(tourId: string, equipmentId: string): Observable<Tour> {
     return this.http.delete<Tour>(`${environment.apiHost}administration/tours/${tourId}/equipment/${equipmentId}`);
   }
 
-  getAvailableEquipment(currentEquipmentIds: number[], tourId: number): Observable<Equipment[]> {
+  getAvailableEquipment(currentEquipmentIds: string[], tourId: string): Observable<Equipment[]> {
     let params = new HttpParams();
     if (currentEquipmentIds.length > 0) {
       params = params.set('equipmentIds', currentEquipmentIds.join(','));
@@ -142,7 +142,7 @@ export class TourAuthoringService {
 
 
   // TODO TOUR OVERVIEW FOR AUTHOR
-  publishTour(tourId: number){
+  publishTour(tourId: string){
     console.log(tourId)
     return this.http.put<Tour>(environment.apiHost + 'administration/tours/publishedTours/' + tourId, null);
   }
@@ -151,7 +151,7 @@ export class TourAuthoringService {
     return this.http.put<Tour>(environment.apiHost + 'administration/tours/archivedTours/' + tour.id, null);
   }
 
-  addTourTransportation(tourId: number, tour: TourTimes){
+  addTourTransportation(tourId: string, tour: TourTimes){
     return this.http.put<Tour>(environment.apiHost + 'administration/tours/tourTime/' + tourId, tour);
   }
   // ---------------------------------------------------------

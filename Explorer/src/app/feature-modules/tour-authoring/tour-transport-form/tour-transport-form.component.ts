@@ -13,7 +13,7 @@ export class TourTransportFormComponent implements OnInit{
   transports: string[] = ['walking', 'cycling', 'driving'];
   availableProfiles: string[];
   chosenProfiles: string[];
-  @Input() tourID: number;
+  @Input() tourID: string;
   tour: Tour;
   @Output() changedSelection: EventEmitter<null> = new EventEmitter<null>();
 

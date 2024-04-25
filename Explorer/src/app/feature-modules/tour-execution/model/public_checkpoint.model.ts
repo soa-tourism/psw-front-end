@@ -1,5 +1,5 @@
 export interface PublicCheckpoint{
-    id?: number,
+    id?: string,
     longitude: number,
     latitude: number,
     name: string,

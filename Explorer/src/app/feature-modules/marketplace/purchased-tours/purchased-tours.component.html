@@ -13,7 +13,7 @@
                 
             </div>
             <div class="card-top">
-              <label class="card-location-header">{{ getTourLocation(tour.id || 0) }}</label>
+              <label class="card-location-header">{{ getTourLocation(tour.id || '') }}</label>
              <div *ngIf="tour.tourRatings.length>0" style="height: auto; width: 22vh; display: flex; justify-content: end; margin-right: 5px;">
                 <label style="color: white; font-size: 100%; font-weight: 400; margin-right: 4px;">{{averageGrade(tour)}}</label>
                 <label *ngIf="+averageGrade(tour) < 1; else fullStar" class="star" data-text="&#9733;">&#9734;</label>
