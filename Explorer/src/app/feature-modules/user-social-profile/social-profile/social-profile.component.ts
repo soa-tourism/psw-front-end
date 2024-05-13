@@ -36,14 +36,19 @@ export class SocialProfileComponent implements OnInit {
     });
     this.service.getSocilaProfileRecommended(id).subscribe(
       (result: any) => {
-        this.recommended = result;
+        this.recommended = result.socialProfiles;
+        this.service.getFollowers(id).subscribe((result:any)=>{
+          this.socialProfile.followers = result.socialProfiles;
+          this.service.getFollowing(id).subscribe((result:any)=>{
+            this.socialProfile.following = result.socialProfiles;
+          });
+        });
       });
   }
 
   onFollowClick(followedId?: number): void {
     if(this.user && followedId){
-      this.service.follow(followedId, this.user.id).subscribe((result: SocialProfile) => {
-        this.socialProfile = result;
+      this.service.follow(this.user.id,followedId).subscribe((result: SocialProfile) => {
         this.getSocialProfile(this.user!.id);
       });
     }
@@ -52,7 +57,6 @@ export class SocialProfileComponent implements OnInit {
   onUnfollowClick(followedId?: number): void {
     if(this.user && followedId){
       this.service.unfollow(followedId, this.user.id).subscribe((result: SocialProfile) => {
-        this.socialProfile = result;
         this.getSocialProfile(this.user!.id);
       });
     }

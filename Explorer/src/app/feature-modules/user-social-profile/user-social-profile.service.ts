@@ -21,6 +21,14 @@ export class UserSocialProfileService {
     return this.http.get<PagedResults<SocialProfile>>(environment.apiHost + 'social-profile/get-recommended/' + id);
   }
 
+  getFollowers(id: number): Observable<PagedResults<SocialProfile>> {
+    return this.http.get<PagedResults<SocialProfile>>(environment.apiHost + 'social-profile/get-followers/' + id);
+  }
+
+  getFollowing(id: number): Observable<PagedResults<SocialProfile>> {
+    return this.http.get<PagedResults<SocialProfile>>(environment.apiHost + 'social-profile/get-following/' + id);
+  }
+
   follow(userId: number, followerId: number): Observable<SocialProfile> {
     return this.http.put<SocialProfile>(environment.apiHost + 'social-profile/follow/' + userId + '/' + followerId, null);
   }
