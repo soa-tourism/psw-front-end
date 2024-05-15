@@ -30,7 +30,7 @@ export class UserSocialProfileService {
   }
 
   follow(userId: number, followerId: number): Observable<SocialProfile> {
-    return this.http.put<SocialProfile>(environment.apiHost + 'social-profile/follow/' + userId + '/' + followerId, null);
+    return this.http.delete<SocialProfile>(environment.apiHost + 'social-profile/follow/' + userId + '/' + followerId);
   }
 
   unfollow(followedId: number, userId: number): Observable<SocialProfile>{
