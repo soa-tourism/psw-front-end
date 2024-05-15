@@ -21,6 +21,7 @@ export class EncounterService {
     //                 .set('checkpointId', id)
     //                 .set("isSecretPrerequisite", isPrerequisite)
     //                 .set("encounter", encounterData);
+    console.log(body);
     return this.http.post<Encounter>(environment.apiHost + 'administration/encounter', body);
   }
 

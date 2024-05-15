@@ -120,6 +120,7 @@ export class EncounterFormComponent implements OnInit{
     encounterData['type'] = this.encounterForm.value.type;
     encounterData['image'] = "";
     encounterData['id'] = 0;
+    encounterData['activeTouristsIds'] = [];
 
     if(this.encounterForm.value.type==="Social")
     {
@@ -158,6 +159,7 @@ export class EncounterFormComponent implements OnInit{
       postBody['encounter'] = encounterData;
       postBody['checkpoint_id'] = this.id;
       postBody['is_secret_prerequisite'] = this.encounterForm.value.isPrerequisite||false;
+      //mozda ovaj image_f ne mora
       postBody['image_f'] = [];
 
     this.service.addEncounter(formData,postBody,this.id,this.encounterForm.value.isPrerequisite|| false).subscribe({
