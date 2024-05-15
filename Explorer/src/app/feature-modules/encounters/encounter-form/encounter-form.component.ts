@@ -99,27 +99,46 @@ export class EncounterFormComponent implements OnInit{
   type:string=this.encounterForm.value.type||"";
 
   onNext():void{
-
+    const encounterData: any = {};
     let formData=new FormData;
 
     formData.append('name', this.encounterForm.value.name||"");
+    encounterData['name'] = this.encounterForm.value.name||"";
     formData.append('description', this.encounterForm.value.description||"");
+    encounterData['description'] = this.encounterForm.value.description||"";
     formData.append('authorId', this.authorId.toString());
+    encounterData['authorId'] = this.authorId;
     formData.append('xp', this.encounterForm.value.xp?.toString()||"");
+    encounterData['xp'] = this.encounterForm.value.xp;
     formData.append('status', "Published");
+    encounterData['status']='Published';
     formData.append('longitude',this.encounterForm.controls.longitude.value?.toString()||"");
+    encounterData['longitude'] = this.encounterForm.controls.longitude.value;
     formData.append('latitude',this.encounterForm.controls.latitude.value?.toString()||"" );
+    encounterData['latitude'] = this.encounterForm.controls.latitude.value;
     formData.append('type',this.encounterForm.value.type||"" );
+    encounterData['type'] = this.encounterForm.value.type;
+    encounterData['image'] = "";
+    encounterData['id'] = 0;
 
     if(this.encounterForm.value.type==="Social")
     {
       formData.append('range', this.encounterForm.value.range?.toString()||"");
+      encounterData['range'] = this.encounterForm.value.range;
       formData.append('requiredPeople', this.encounterForm.value.requiredPeople?.toString()||"");
+      encounterData['requiredPeople'] = this.encounterForm.value.requiredPeople;
+      
+      encounterData['locationLongitude'] = 0;
+      encounterData['locationLatitude'] = 0;
     }
     if (this.encounterForm.value.type==="Location")
     {
       formData.append('range', this.encounterForm.value.range?.toString()||"");
+      encounterData['range'] = this.encounterForm.value.range;
+      encounterData['requiredPeople'] = 0;
       formData.append('locationLongitude', this.encounterForm.controls.locationLongitude.value?.toString()||"");
+      encounterData['locationLongitude'] = this.encounterForm.controls.locationLongitude.value;
+      encounterData['locationLatitude'] = this.encounterForm.controls.locationLatitude.value;
       formData.append('locationLatitude', this.encounterForm.controls.locationLatitude.value?.toString()||"");
       if (this.encounterForm.value.images) {
         const selectedFiles = this.encounterForm.value.images;
@@ -127,10 +146,16 @@ export class EncounterFormComponent implements OnInit{
 
       }
     }
+    if(this.encounterForm.value.type==="Misc"){
+      encounterData['requiredPeople'] = 0;
+      encounterData['range'] = 0;
+      encounterData['locationLongitude'] = 0;
+      encounterData['locationLatitude'] = 0;
+    }
 
     if(this.edit==false){
 
-    this.service.addEncounter(formData,this.id,this.encounterForm.value.isPrerequisite|| false).subscribe({
+    this.service.addEncounter(formData,encounterData,this.id,this.encounterForm.value.isPrerequisite|| false).subscribe({
       next: () => {
         this.encounterForm.reset();
         this.imagePreview = [];

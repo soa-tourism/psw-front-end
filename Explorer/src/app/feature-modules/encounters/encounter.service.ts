@@ -15,19 +15,20 @@ export class EncounterService {
   
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  addEncounter(encounter: FormData, id: string,isPrerequisite:boolean): Observable<Encounter> {
+  addEncounter(encounter: FormData, encounterData: any, id: string,isPrerequisite:boolean): Observable<Encounter> {
 
     const params = new HttpParams()
                     .set('checkpointId', id)
-                    .set("isSecretPrerequisite", isPrerequisite);
-    return this.http.post<Encounter>(environment.apiHost + 'administration/encounter', encounter,{params});
+                    .set("isSecretPrerequisite", isPrerequisite)
+                    .set("encounter", encounterData);
+    return this.http.post<Encounter>(environment.apiHost + 'administration/encounter', encounterData,{params});
   }
 
   addTouristEncounter(encounter: FormData,id:string,isPrerequisite:boolean): Observable<Encounter> {
 
     const params = new HttpParams()
                     .set('checkpointId', id)
-                    .set("isSecretPrerequisite", isPrerequisite);
+                    .set("isSecretPrerequisite", isPrerequisite)
     return this.http.post<Encounter>(environment.apiHost + 'administration/touristEncounter', encounter,{params});
   }
 
