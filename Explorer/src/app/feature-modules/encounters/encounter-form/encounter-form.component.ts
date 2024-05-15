@@ -154,8 +154,13 @@ export class EncounterFormComponent implements OnInit{
     }
 
     if(this.edit==false){
+      const postBody :any = {}
+      postBody['encounter'] = encounterData;
+      postBody['checkpoint_id'] = this.id;
+      postBody['is_secret_prerequisite'] = this.encounterForm.value.isPrerequisite||false;
+      postBody['image_f'] = [];
 
-    this.service.addEncounter(formData,encounterData,this.id,this.encounterForm.value.isPrerequisite|| false).subscribe({
+    this.service.addEncounter(formData,postBody,this.id,this.encounterForm.value.isPrerequisite|| false).subscribe({
       next: () => {
         this.encounterForm.reset();
         this.imagePreview = [];
