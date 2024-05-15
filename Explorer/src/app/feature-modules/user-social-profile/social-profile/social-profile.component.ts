@@ -48,7 +48,7 @@ export class SocialProfileComponent implements OnInit {
 
   onFollowClick(followedId?: number): void {
     if(this.user && followedId){
-      this.service.follow(this.user.id,followedId).subscribe((result: SocialProfile) => {
+      this.service.follow(followedId,this.user.id).subscribe((result: SocialProfile) => {
         this.getSocialProfile(this.user!.id);
       });
     }
@@ -56,24 +56,35 @@ export class SocialProfileComponent implements OnInit {
 
   onUnfollowClick(followedId?: number): void {
     if(this.user && followedId){
-      this.service.unfollow(followedId, this.user.id).subscribe((result: SocialProfile) => {
+      this.service.unfollow(this.user.id, followedId).subscribe((result: SocialProfile) => {
         this.getSocialProfile(this.user!.id);
       });
     }
   }
 
   search(): void {
-    if (this.searchProfiles){
+    if (this.searchProfiles) {
       this.service.searchSocialProfilesByUsername(this.searchProfiles).subscribe(
-        (result:any) => {
-          // Filter out profiles already in following and the logged-in user
-          this.searched = result.filter((profile: SocialProfile) => {
-            if (profile.userId !== this.socialProfile.userId) {
-            return !this.socialProfile.following.some(followed => followed.userId === profile.userId);
-            }
-            return false;
-        });
-      });
+        (result: any) => {
+          console.log("Received result:", result); // Log the result
+          // Check if result is an array
+          if (Array.isArray(result.socialProfiles)) {
+            // Filter out profiles already in following and the logged-in user
+            this.searched = result.socialProfiles.filter((profile: SocialProfile) => {
+              if (profile.userId !== this.socialProfile.userId) {
+                return !this.socialProfile.following.some(followed => followed.userId === profile.userId);
+              }
+              return false;
+            });
+          } else {
+            console.error("Result is not an array:", result); // Log error if result is not an array
+          }
+        },
+        error => {
+          console.error("Error occurred during search:", error); // Log any errors
+        }
+      );
     }
   }
+  
 }
