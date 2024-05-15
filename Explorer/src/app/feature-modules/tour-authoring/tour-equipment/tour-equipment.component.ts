@@ -4,6 +4,7 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { Tour } from '../model/tour.model';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
 
 
 @Component({
@@ -52,8 +53,8 @@ export class TourEquipmentComponent implements OnInit {
 
   getAvailableEquipment(currentEquipmentIds: string[]): void{
     if (this.tour.id !== undefined) {      
-      this.service.getAvailableEquipment(currentEquipmentIds, this.tour.id).subscribe((result: Equipment[]) => {
-        this.availableEquipment = result;
+      this.service.getAvailableEquipment(this.tour.id, currentEquipmentIds).subscribe((result: PagedResults<Equipment>) => {
+        this.availableEquipment = result.results;
       })
     }
   }

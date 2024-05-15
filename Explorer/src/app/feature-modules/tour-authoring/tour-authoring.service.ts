@@ -46,7 +46,6 @@ export class TourAuthoringService {
   }
 
   addCheckpoint(checkpoint: FormData, status: string): Observable<Checkpoint> {
-    // Create an empty object with 'any' type
     const checkpointData: any = {};
     const checkp: any = {};
   
@@ -80,9 +79,30 @@ export class TourAuthoringService {
     return this.http.post<Checkpoint>(`${environment.apiHost}administration/checkpoint/create/${status}`, checkpointData);
   }
 
-  updateCheckpoint(checkpointId: string, checkpoint: FormData): Observable<Checkpoint> {
-    console.log(checkpointId);
-    return this.http.put<Checkpoint>(environment.apiHost + 'administration/checkpoint/' + checkpointId, checkpoint);
+  updateCheckpoint(checkpointId: string, checkpointFormData: FormData): Observable<Checkpoint> {
+    const checkpointData: any = {};
+    const checkp: any = {};
+  
+    // Iterate over FormData keys and values
+    checkpointFormData.forEach((value, key) => {
+      if (key ==="authorId" || key === "encounterId" || key==="longitude" || key==="latitude" || key==="requiredTimeInSeconds"){
+        checkp[key] = Number(value);
+      }
+      else {
+        if (key === 'isSecretPrerequisite'){
+          checkp[key] = Boolean(value);  
+        } else {
+          checkp[key] = value;
+        }
+      }
+    });
+    checkp['pictures']=[];
+    // Add the status to the JSON data
+    checkpointData['checkpoint'] = checkp;
+    checkpointData['id'] = checkpointId;
+    checkpointData['pictures'] = [];
+    console.log(checkpointData)
+    return this.http.put<Checkpoint>(`${environment.apiHost}administration/checkpoint/create/${checkpointId}`, checkpointData);
   }
 
   addCheckpointSecret(checkpointSecret: FormData, id: string): Observable<Checkpoint> {
@@ -163,12 +183,14 @@ export class TourAuthoringService {
     return this.http.delete<Tour>(`${environment.apiHost}administration/tours/${tourId}/equipment/${equipmentId}`);
   }
 
-  getAvailableEquipment(currentEquipmentIds: string[], tourId: string): Observable<Equipment[]> {
+  getAvailableEquipment(tourId: string, currentEquipmentIds: string[]): Observable<PagedResults<Equipment>> {
     let params = new HttpParams();
+    params = params.set('id', tourId);
     if (currentEquipmentIds.length > 0) {
       params = params.set('equipmentIds', currentEquipmentIds.join(','));
     }
-    return this.http.get<Equipment[]>(`${environment.apiHost}tours/${tourId}/equipment/available`, { params });
+    console.log(params)
+    return this.http.get<PagedResults<Equipment>>(`${environment.apiHost}tours/${tourId}/equipment/available`, { params });
   }
 
 

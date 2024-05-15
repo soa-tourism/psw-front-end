@@ -163,9 +163,14 @@ export class EncounterFormComponent implements OnInit{
       postBody['image_f'] = [];
 
     this.service.addEncounter(formData,postBody,this.id,this.encounterForm.value.isPrerequisite|| false).subscribe({
-      next: () => {
+      next: (result) => {
         this.encounterForm.reset();
         this.imagePreview = [];
+        
+        console.log(result);
+        // update checkpoint -> encounterId
+        this.checkpoint.encounterId = result.id!;
+        this.updateCheckpointEnc(this.checkpoint);
       },
       error: (err) => {
         console.error('Update failed:', err);
@@ -184,13 +189,34 @@ export class EncounterFormComponent implements OnInit{
       },
     });
   }
-
-
-
     this.router.navigate([`checkpoint-secret/${this.id}`]);
   }
 
+  private fillFormData(formData: FormData, checkpoint: Checkpoint) {
+    formData.append('id', checkpoint.id!);
+    formData.append('tourId', checkpoint.tourId.toString());
+    formData.append('authorId', checkpoint.authorId.toString());
+    formData.append('longitude', checkpoint.longitude.toString());
+    formData.append('latitude', checkpoint.latitude.toString());
+    formData.append('name', checkpoint.name);
+    formData.append('description', checkpoint.description);
+    //formData.append('pictures', checkpoint.pictures);
+    formData.append('requiredTimeInSeconds', checkpoint.requiredTimeInSeconds.toString());
+    formData.append('encounterId', checkpoint.encounterId.toString());
+    formData.append('isSecretPrerequisite', checkpoint.isSecretPrerequisite.toString());    
+  }
+  updateCheckpointEnc(checkpoint: Checkpoint): void{
+    const formData = new FormData();
+    this.fillFormData(formData, checkpoint);
 
+    this.tourAuthoringService.updateCheckpoint(checkpoint.id!, formData).subscribe({
+        next: () => {},
+        error: (err) => {
+          console.error('Update checkpoint failed:', err);
+        },
+      }
+    );
+  }
 
   onChange(){
     this.type=this.encounterForm.value.type||"";
