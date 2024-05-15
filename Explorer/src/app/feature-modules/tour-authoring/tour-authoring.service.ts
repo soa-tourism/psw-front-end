@@ -46,7 +46,38 @@ export class TourAuthoringService {
   }
 
   addCheckpoint(checkpoint: FormData, status: string): Observable<Checkpoint> {
-    return this.http.post<Checkpoint>(environment.apiHost +`administration/checkpoint/create/${status}`, checkpoint);
+    // Create an empty object with 'any' type
+    const checkpointData: any = {};
+    const checkp: any = {};
+  
+    // Iterate over FormData keys and values
+    checkpoint.forEach((value, key) => {
+      if (key === 'checkpointSecret' || key === 'currentPicture' || key === 'currentPointPicture' || key === 'showedPicture'|| key === 'showedPointPicture' || key === 'viewSecretMessage'|| key === 'visibleSecret'){
+        
+      } else { 
+       if (key ==="authorId" || key === "encounterId" || key==="longitude" || key==="latitude" || key==="requiredTimeInSeconds"){
+        checkp[key] = Number(value);
+       }
+        else {
+          if (key === 'isSecretPrerequisite'){
+            checkp[key] = Boolean(value);  
+          } else {
+            checkp[key] = value;
+          }
+        }
+      }
+    });
+  
+    checkp['pictures']=[];
+    checkp['id']="";
+
+    // Add the status to the JSON data
+    checkpointData['checkpoint'] = checkp;
+    checkpointData['status'] = status;
+    checkpointData['pictures'] = [];
+    console.log(checkpointData)
+    // Send the JSON data in the request
+    return this.http.post<Checkpoint>(`${environment.apiHost}administration/checkpoint/create/${status}`, checkpointData);
   }
 
   updateCheckpoint(checkpointId: string, checkpoint: FormData): Observable<Checkpoint> {
